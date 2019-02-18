@@ -1,0 +1,14 @@
+{
+     "env": {
+    "development": {
+      "extraBabelPlugins": [
+        "dva-hmr"
+      ]
+    }
+  },
+    "extraBabelPlugins": [
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }] 
+    ],
+    "disableCSSModules": true,
+    "theme": {"primary-color": "#1890ff"}
+}
