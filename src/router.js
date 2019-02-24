@@ -6,12 +6,17 @@ import Personnel from './components/personnel/personnel.js'
 
 function RouterConfig({ history }) {
   return (
-    <div style={{height:'100%'}}>
+    <div>
     <Router history={history}>
       <Switch>
         <Route path="/" exact component={IndexPage} />
-        <Route path="/index" exact component={Main}>
-          <Route path='/index/personnel' component={Personnel}/>
+        <Route path="/index"  render={()=>
+          <Main>
+            <Switch>
+              <Route path='/index/personnel' component={Personnel}/>
+            </Switch>
+          </Main>
+        }>
         </Route>
       </Switch>
     </Router>
