@@ -35,3 +35,18 @@ export function equipMentD(payload) {
     method: 'get'
   })
 }
+export function addE(payload) {
+  console.log(JSON.stringify(payload))
+  return request("http://localhost:4000/equipment/add",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function securitY(payload) {
+  return request("http://localhost:4000/security",{
+    method: 'get'
+  })
+}

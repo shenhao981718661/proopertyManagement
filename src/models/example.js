@@ -1,5 +1,6 @@
-import {query, queryUser, addUser, equipMentD} from '../services/example.js'
+import {query, queryUser, addUser, equipMentD, addE, securitY} from '../services/example.js'
 import {message} from 'antd'
+import security from '../components/security/security.js';
 export default {
 
   namespace: 'example',
@@ -8,7 +9,8 @@ export default {
     data: '',
     type: 0,
     userList: [],
-    equipmentSource: []
+    equipmentSource: [],
+    securitySource: []
   },
 
   subscriptions: {
@@ -47,13 +49,25 @@ export default {
       }
     },
     *equipment(payload,{call,put}){
-      console.log("执行")
       const cb = yield call(equipMentD)
       if(cb){
         yield put({type: 'equipmentSource', data: cb.data})
       }
+    },
+    *addEquipment({payload: {data}}, {call, pull}){
+      console.log(data)
+      const cb = yield call(addE, data)
+      if(cb){
+        message.success("添加成功")
+      }
+    },
+    *security(payload, {call, put}){
+      const cb = yield call(securitY)
+      console.log(cb)
+      if(cb){
+        yield put({type: 'securitySource', data: cb.data})
+      }
     }
-    
   },
 
   reducers: {
@@ -71,6 +85,10 @@ export default {
     },
     equipmentSource(state, {data}){
       return {...state, equipmentSource: data}
+    },
+    securitySource(state, {data}){
+      console.log(data)
+      return {...state, securitySource: data}
     }
 
   },

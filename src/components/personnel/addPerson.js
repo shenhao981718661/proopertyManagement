@@ -12,7 +12,6 @@ class AddPerson extends React.Component{
         }
     }
     handleSubmit = (e) => {
-        console.log("321")
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
           if (!err) {
