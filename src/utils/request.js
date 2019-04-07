@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+import qs from 'qs'
 
 function parseJSON(response) {
   return response.json();
@@ -21,7 +22,22 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options) {
+export default function request(url, opts = {}) {
+  const options = Object.assign({
+    data: {},
+    timeout: 10000,
+    method: 'GET',
+    type: 'json'
+  }, opts)
+  if(options.method.toUpperCase() === 'POST'){
+    if (!options.headers){
+      options.headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'X-Requested-With': 'XMLHttpRequest',
+      }
+    }
+  }
+  console.log(options)
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)

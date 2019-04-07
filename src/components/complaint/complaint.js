@@ -8,7 +8,9 @@ class Complaint extends React.Component{
     }
     render(){
         return(
-            <div>Complaint</div>
+            <div>
+                123
+            </div>
         )
     }
 }

@@ -3,6 +3,7 @@ import { Menu,Icon  } from 'antd'
 import {Link} from 'dva/router'
 import './navleft.less'
 import logo from '../../assets/logo.jpg'
+import { connect } from 'dva';
 const SubMenu = Menu.SubMenu
 
 class Navleft extends React.Component{
@@ -11,13 +12,17 @@ class Navleft extends React.Component{
         this.state={}
     }
     render(){
+      const type = this.props.type
+      console.log(this.props)
         return(
             <div>
                 <div className="logo" ><img src={logo}/></div>
                   <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                    <Menu.Item key="1">
+                    {/* {(type == 2 || type == 3) ?  */}
+                      <Menu.Item key="1">
                       <Link to='/index/personnel'>人事管理</Link>
                     </Menu.Item>
+                    {/* } */}
                     <Menu.Item key="2">
                       <Link to='/index/equipment'>设置管理</Link>
                     </Menu.Item>
@@ -52,4 +57,9 @@ class Navleft extends React.Component{
         )
     }
 }
-export default Navleft
+export default connect((state) =>{
+    const { type } = state.example;
+    return{
+      type: type
+    }
+})(Navleft)
