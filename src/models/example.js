@@ -1,4 +1,4 @@
-import {query, queryUser, addUser, equipMentD, addE, securitY} from '../services/example.js'
+import {query, queryUser, addUser, equipMentD, addE, securitY, owneR, addowner, housinG, addhousing} from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
 export default {
@@ -10,7 +10,9 @@ export default {
     type: 0,
     userList: [],
     equipmentSource: [],
-    securitySource: []
+    securitySource: [],
+    ownerSource: [],
+    housingSource: []
   },
 
   subscriptions: {
@@ -67,6 +69,30 @@ export default {
       if(cb){
         yield put({type: 'securitySource', data: cb.data})
       }
+    },
+    *owner(payload, {call, put}){
+      const cb = yield call(owneR)
+      if(cb){
+        yield put({type: 'ownerSource', data: cb.data})
+      }
+    },
+    *addOwner({payload: {data}}, {call, put}){
+      const cb = yield call(addowner, data)
+      if(cb){
+        message.success("添加成功")
+      }
+    },
+    *housing(payload, {call, put}){
+      const cb = yield call(housinG)
+      if(cb){
+        yield put({type: 'housingSource', data: cb.data})
+      }
+    },
+    *addHousing({payload: {data}}, {call, put}){
+      const cb = yield call(addhousing, data)
+      if(cb){
+        message.success("添加成功")
+      }
     }
   },
 
@@ -89,6 +115,12 @@ export default {
     securitySource(state, {data}){
       console.log(data)
       return {...state, securitySource: data}
+    },
+    ownerSource(state, {data}){
+      return {...state, ownerSource: data}
+    },
+    housingSource(state, {data}){
+      return {...state, housingSource: data}
     }
 
   },

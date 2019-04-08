@@ -7,7 +7,7 @@ export function query(payload) {
     headers: {
       // 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       'Content-Type': 'application/json',
-            // 'Content-Type': 'application/x-www-form-urlencoded'
+      // 'Content-Type': 'application/x-www-form-urlencoded'
     },
     body: JSON.stringify(payload),
   });
@@ -48,5 +48,33 @@ export function addE(payload) {
 export function securitY(payload) {
   return request("http://localhost:4000/security",{
     method: 'get'
+  })
+}
+export function owneR(payload) {
+  return request("http://localhost:4000/owner",{
+    method: 'get'
+  })
+}
+export function addowner(payload) {
+  return request("http://localhost:4000/owner/add",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function housinG(payload) {
+  return request("http://localhost:4000/housing",{
+    method: 'get'
+  })
+}
+export function addhousing(payload) {
+  return request("http://localhost:4000/housing/add",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
   })
 }
