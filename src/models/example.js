@@ -1,4 +1,19 @@
-import {query, queryUser, addUser, equipMentD, addE, securitY, owneR, addowner, housinG, addhousing} from '../services/example.js'
+import {query, 
+  queryUser, 
+  addUser,
+  equipMentD, 
+  addE, 
+  securitY, 
+  owneR, 
+  addowner, 
+  housinG, 
+  addhousing,
+  complainT,
+  addcomplaint,
+  repaiR,
+  addrepair,
+  reporT,
+} from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
 export default {
@@ -12,7 +27,10 @@ export default {
     equipmentSource: [],
     securitySource: [],
     ownerSource: [],
-    housingSource: []
+    housingSource: [],
+    complaintSource: [],
+    repairSource: [],
+    reportSource: [],
   },
 
   subscriptions: {
@@ -93,7 +111,38 @@ export default {
       if(cb){
         message.success("添加成功")
       }
-    }
+    },
+    *complaint(payload, {call, put}){
+      const cb = yield call(complainT)
+      if(cb){
+        yield put({type: 'complaintSource', data: cb.data})
+      }
+    },
+    *addComplaint({payload: {data}}, {call, put}){
+      const cb = yield call(addcomplaint, data)
+      if(cb){
+        message.success("添加成功")
+      }
+    },
+    *repair(payload, {call, put}){
+      const cb = yield call(repaiR)
+      if(cb){
+        yield put({type: 'repairSource', data: cb.data})
+      }
+    },
+    *addRepair({payload: {data}}, {call, put}){
+      const cb = yield call(addrepair, data)
+      if(cb){
+        message.success("添加成功")
+      }
+    },
+    *report(payload, {call, put}){
+      const cb = yield call(reporT)
+      if(cb){
+        yield put({type: 'reportSource', data: cb.data})
+      }
+    },
+
   },
 
   reducers: {
@@ -121,8 +170,16 @@ export default {
     },
     housingSource(state, {data}){
       return {...state, housingSource: data}
-    }
-
+    },
+    complaintSource(state, {data}){
+      return {...state, complaintSource: data}
+    },
+    repairSource(state, {data}){
+      return {...state, repairSource: data}
+    },
+    reportSource(state, {data}){
+      return {...state, reportSource: data}
+    },
   },
 
 };

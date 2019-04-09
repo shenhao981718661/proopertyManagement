@@ -78,3 +78,36 @@ export function addhousing(payload) {
     body: JSON.stringify(payload)
   })
 }
+export function complainT(payload) {
+  return request("http://localhost:4000/complaint",{
+    method: 'get'
+  })
+}
+export function addcomplaint(payload) {
+  return request("http://localhost:4000/complaint/add",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function repaiR(payload) {
+  return request("http://localhost:4000/repair",{
+    method: 'get'
+  })
+}
+export function addrepair(payload) {
+  return request("http://localhost:4000/repair/add",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function reporT(payload) {
+  return request("http://localhost:4000/report",{
+    method: 'get'
+  })
+}
