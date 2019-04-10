@@ -111,3 +111,36 @@ export function reporT(payload) {
     method: 'get'
   })
 }
+export function paY(payload) {
+  return request("http://localhost:4000/pay",{
+    method: 'get'
+  })
+}
+export function addpay(payload) {
+  return request("http://localhost:4000/pay/add",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function caR(payload) {
+  return request("http://localhost:4000/car",{
+    method: 'get'
+  })
+}
+export function addcar(payload) {
+  return request("http://localhost:4000/car/add",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function messagE(payload) {
+  return request("http://localhost:4000/message",{
+    method: 'get'
+  })
+}

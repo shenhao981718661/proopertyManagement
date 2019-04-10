@@ -13,6 +13,11 @@ import {query,
   repaiR,
   addrepair,
   reporT,
+  paY,
+  addpay,
+  caR,
+  addcar,
+  messagE,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -31,6 +36,9 @@ export default {
     complaintSource: [],
     repairSource: [],
     reportSource: [],
+    paySource: [],
+    carSource: [],
+    messageSource: [],
   },
 
   subscriptions: {
@@ -142,7 +150,36 @@ export default {
         yield put({type: 'reportSource', data: cb.data})
       }
     },
-
+    *pay(payload, {call, put}){
+      const cb = yield call(paY)
+      if(cb){
+        yield put({type: 'paySource', data: cb.data})
+      }
+    },
+    *addPay({payload: {data}}, {call, put}){
+      const cb = yield call(addpay, data)
+      if(cb){
+        message.success("添加成功")
+      }
+    },
+    *car(payload, {call, put}){
+      const cb = yield call(caR)
+      if(cb){
+        yield put({type: 'carSource', data: cb.data})
+      }
+    },
+    *addCar({payload: {data}}, {call, put}){
+      const cb = yield call(addcar, data)
+      if(cb){
+        message.success("添加成功")
+      }
+    },
+    *message(payload, {call, put}){
+      const cb = yield call(messagE)
+      if(cb){
+        yield put({type: 'messageSource', data: cb.data})
+      }
+    },
   },
 
   reducers: {
@@ -162,7 +199,6 @@ export default {
       return {...state, equipmentSource: data}
     },
     securitySource(state, {data}){
-      console.log(data)
       return {...state, securitySource: data}
     },
     ownerSource(state, {data}){
@@ -179,6 +215,15 @@ export default {
     },
     reportSource(state, {data}){
       return {...state, reportSource: data}
+    },
+    paySource(state, {data}){
+      return {...state, paySource: data}
+    },
+    carSource(state, {data}){
+      return {...state, carSource: data}
+    },
+    messageSource(state, {data}){
+      return {...state, messageSource: data}
     },
   },
 
