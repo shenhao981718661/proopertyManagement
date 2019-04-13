@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import {Table,Divider,Popconfirm, Button, Modal} from 'antd';
 import AddPerson from './addPerson'
+import EditPerson from './editPersonnel'
 const { Column, ColumnGroup } = Table;
 
 
@@ -10,7 +11,8 @@ class Personnel extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            showModal: false
+            showModal: false,
+            editSource: {},
         }
         this.addPerson = this.addPerson.bind(this)
         this.cancel = this.cancel.bind(this)
@@ -25,9 +27,6 @@ class Personnel extends React.Component{
         })
     }
     columns =[{
-        title: 'ID',
-        dataIndex: '_id'
-    },{
         title: '用户名',
         dataIndex: 'userName'
     },{
@@ -45,14 +44,30 @@ class Personnel extends React.Component{
     },{
         title: '操作',
         render: (text,record) => {
-            const Id = record._id;
             return(
             <span>
-            <Popconfirm title="确定删除？" onConfirm={() => this.con(Id)}>
+            <a href="javascript:;" onClick={() => {
+                this.setState({
+                    editSource: text,
+                })
+                this.props.dispatch({
+                    type: 'example/changeEdit',
+                    payload: {
+                        data: true
+                    }
+                })
+            }}>编辑</a>
+            <Divider type="vertical" />
+            <Popconfirm title="确定删除？" onConfirm={() => {
+                this.props.dispatch({
+                    type: 'example/removePerson',
+                    payload: {
+                        data: {_id: text._id}
+                    }
+                })
+            }}>
                 <a href="#">删除</a>
             </Popconfirm>
-            <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
           </span>
           )
     }
@@ -77,10 +92,15 @@ class Personnel extends React.Component{
         this.setState({
             showModal: false
         })
+        this.props.dispatch({
+            type: 'example/changeEdit',
+            payload: {
+                data: false
+            }
+        })
     }
     render(){
-        console.log(this.props.type)
-        const {dataSource} = this.props
+        const {dataSource, showEdit} = this.props
         return(
             <div>
                 <Button onClick={this.addPerson}>
@@ -88,11 +108,24 @@ class Personnel extends React.Component{
                 </Button>
                 <Modal
                     visible={this.state.showModal}
+                    destroyOnClose={true}
                     footer={null}
                     keyboard
                     onCancel={this.cancel}
                 >
                     <AddPerson cancel={this.cancel}></AddPerson>
+                </Modal>
+                <Modal
+                    destroyOnClose={true}
+                    visible={showEdit}
+                    footer={null}
+                    keyboard
+                    onCancel={this.cancel}
+                >
+                    <EditPerson
+                        cancel={this.cancel}
+                        editSource={this.state.editSource}
+                     />
                 </Modal>
                 <Table
                     columns={this.columns} dataSource={dataSource}
@@ -104,11 +137,12 @@ class Personnel extends React.Component{
 }
 
 export default connect((state) => {
-    const {data, type, userList} = state.example
+    const {data, type, userList, showEdit} = state.example
     return{
         data: data,
         type: type,
-        dataSource: userList
+        dataSource: userList,
+        showEdit: showEdit,
     }
 }
 )(Personnel);

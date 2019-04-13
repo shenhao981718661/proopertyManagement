@@ -25,15 +25,13 @@ class AddCar extends React.Component{
     }
     render(){
         const { getFieldDecorator } = this.props.form
-        const { parkingLog } = this.props.editSource
-        console.log(parkingLog)
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
                         label="车位"
                     >
-                        {getFieldDecorator('parkingLog',{rules:[{required: true}],initialValue:parkingLog})(
+                        {getFieldDecorator('parkingLog',{rules:[{required: true}]})(
                             <Input />
                         )}
                     </Form.Item>

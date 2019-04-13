@@ -4,7 +4,7 @@ import {Table, Form, Button, Input, Icon, message} from 'antd';
 const { Column, ColumnGroup } = Table;
 
 
-class AddPerson extends React.Component{
+class EditPerson extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -14,45 +14,34 @@ class AddPerson extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-          if(values.password !== values.password2){
-            message.error("密码不一致")
-            return
-          }
           if (!err) {
-              delete values.password2;
             this.props.dispatch({
-                type: 'example/addUser',
+                type: 'example/editPerson',
                 payload:{
                     data: values
                 } 
             })
-            this.props.cancel()
           }
         });
       }
     render(){
         const { getFieldDecorator } = this.props.form
+        const data = this.props.editSource
+        console.log(data)
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
                         label="用户名"
                     >
-                        {getFieldDecorator('userName',{rules:[{required:true}]})(
+                        {getFieldDecorator('userName',{rules:[{required:true}],initialValue:data.userName})(
                             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}/>
                         )}
                     </Form.Item>
                     <Form.Item
                         label="密　码"
                     >
-                        {getFieldDecorator('password',{rules:[{required:true}]})(
-                            <Input type="password" prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}/>
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        label="确认密码"
-                    >
-                        {getFieldDecorator('password2',{rules:[{required:true}]})(
+                        {getFieldDecorator('password',{rules:[{required:true}],initialValue:data.password})(
                             <Input type="password" prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}/>
                         )}
                     </Form.Item>
@@ -62,11 +51,16 @@ class AddPerson extends React.Component{
                         )}
                     </Form.Item>
                     <Form.Item>
+                        {getFieldDecorator('_id',{rules:[{required:true}],initialValue:data._id})(
+                            <Input name="type" hidden={true}/>
+                        )}
+                    </Form.Item>
+                    <Form.Item>
                         <Button
                             type="primary"
                             htmlType="submit"
                         >
-                            添加
+                            修改
                         </Button>
                     </Form.Item>
                 </Form>
@@ -75,5 +69,5 @@ class AddPerson extends React.Component{
     }
 }
 
-AddPerson = Form.create({})(AddPerson)
-export default connect()(AddPerson)
+EditPerson = Form.create({})(EditPerson)
+export default connect()(EditPerson)

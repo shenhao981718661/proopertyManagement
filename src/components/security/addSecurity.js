@@ -15,11 +15,12 @@ class AddSecurity extends React.Component{
         this.props.form.validateFields((err, values) => {
             if(!err){
                 this.props.dispatch({
-                    type: 'example/addEquipment',
+                    type: 'example/addSecurity',
                     payload: {
                         data: values
                     }
                 })
+                this.props.cancel()
             }
         })
     }
@@ -29,23 +30,30 @@ class AddSecurity extends React.Component{
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
-                        label="设备名称"
+                        label="姓名"
                     >
                         {getFieldDecorator('name',{rules:[{required: true}]})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
-                        label="设备价格"
+                        label="类型"
                     >
-                        {getFieldDecorator('money',{rules:[{required: true}]})(
+                        {getFieldDecorator('type',{rules:[{required: true}]})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
-                        label="设备规格"
+                        label="安保区域"
                     >
-                        {getFieldDecorator('norms',{rules:[{required: true}]})(
+                        {getFieldDecorator('region',{rules:[{required: true}]})(
+                            <Input />
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label="上班时间"
+                    >
+                        {getFieldDecorator('date',{rules:[{required: true}]})(
                             <Input />
                         )}
                     </Form.Item>

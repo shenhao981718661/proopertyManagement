@@ -1,5 +1,5 @@
 import {query, 
-  queryUser, 
+  queryuser, 
   addUser,
   equipMentD, 
   addE, 
@@ -18,6 +18,15 @@ import {query,
   caR,
   addcar,
   messagE,
+  editcar,
+  editequipment,
+  removecar,
+  removeequipment,
+  editperson,
+  removeperson,
+  addsecurity,
+  editsecurity,
+  removesecurity,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -39,6 +48,7 @@ export default {
     paySource: [],
     carSource: [],
     messageSource: [],
+    showEdit: false,
   },
 
   subscriptions: {
@@ -62,19 +72,34 @@ export default {
         }
       }
     },
-    *queryUser({payload: {data}}, {call, put}) {
-      const cb = yield call(queryUser, {data})
-      console.log(cb)
+    *queryUser(payload, {call, put}) {
+      console.log("123")
+      const cb = yield call(queryuser)
       if(cb){
         yield put({type: 'changeUserList', data: cb.data})
       }
     },
     *addUser({payload: {data}}, {call, put}){
-      console.log(data)
       const cb = yield call(addUser, data)
       if(cb){
-        console.log("成功")
+        message.success("添加成功")
+        yield put({type: 'queryUser'})
       }
+    },
+    *editPerson({payload: {data}}, {call, put}){
+      const cb = yield call(editperson, data)
+      if(cb){
+          message.success("修改成功")
+          yield put({type: 'changeEdit',payload:{data: false} })
+          yield put({type: 'queryUser'})
+      }
+    },
+    *removePerson({payload: {data}}, {call, put}){
+      const cb = yield call(removeperson, data)
+      if(cb){
+          message.success("删除成功")
+          yield put({type: 'queryUser'})
+        }
     },
     *equipment(payload,{call,put}){
       const cb = yield call(equipMentD)
@@ -82,11 +107,27 @@ export default {
         yield put({type: 'equipmentSource', data: cb.data})
       }
     },
-    *addEquipment({payload: {data}}, {call, pull}){
+    *addEquipment({payload: {data}}, {call, put}){
       console.log(data)
       const cb = yield call(addE, data)
       if(cb){
         message.success("添加成功")
+        yield put({type: 'equipment'})
+      }
+    },
+    *editEquipment({payload: {data}}, {call, put}){
+      const cb = yield call(editequipment,data)
+      if(cb){
+        message.success("修改成功")
+        yield put({type: 'changeEdit',payload:{data: false} })
+        yield put({type: 'equipment'})
+      }
+    },
+    *removeEquipment({payload: {data}},{call, put}){
+      const cb = yield call(removeequipment,data)
+      if(cb){
+        message.success("删除成功")
+        yield put({type: 'equipment'})
       }
     },
     *security(payload, {call, put}){
@@ -94,6 +135,28 @@ export default {
       console.log(cb)
       if(cb){
         yield put({type: 'securitySource', data: cb.data})
+      }
+    },
+    *addSecurity({payload: {data}}, {call, put}){
+      const cb = yield call(addsecurity, data)
+      if(cb){
+        yield put({type: 'security'})
+        message.success("添加成功")
+      }
+    },
+    *editSecurity({payload: {data}}, {call, put}){
+      const cb = yield call(editsecurity, data)
+      if(cb){
+        yield put({type: 'security'})
+        yield put({type: 'changeEdit',payload:{data: false} })
+        message.success("修改成功")
+      }
+    },
+    *removeSecurity({payload: {data}}, {call, put}){
+      const cb = yield call(removesecurity, data)
+      if(cb){
+        yield put({type: 'security'})
+        message.success("修改成功")
       }
     },
     *owner(payload, {call, put}){
@@ -174,6 +237,23 @@ export default {
         message.success("添加成功")
       }
     },
+
+    //停车位管理
+    *editCar({payload: {data}}, {call, put}){
+      const cb = yield call(editcar, data)
+      if(cb){
+        message.success("修改成功")
+        yield put({type: 'changeEdit',payload:{data: false} })
+        yield put({type: 'car'})
+      }
+    },
+    *removeCar({payload: {data}},{call, put}){
+      const cb = yield call(removecar, data)
+      if(cb){
+        message.success("删除成功")
+        yield put({type: 'car'})
+      }
+    },
     *message(payload, {call, put}){
       const cb = yield call(messagE)
       if(cb){
@@ -225,6 +305,9 @@ export default {
     messageSource(state, {data}){
       return {...state, messageSource: data}
     },
+    changeEdit(state, {payload: {data}}){
+      return {...state, showEdit: data}
+    }
   },
 
 };

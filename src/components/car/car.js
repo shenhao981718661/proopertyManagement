@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Divider, Button, Modal } from 'antd'
 import AddCar from './addCar.js'
+import EditCar from './editCar.js'
 
 class Car extends React.Component{
     constructor(props){
         super(props)
         this.state={
             showModal: false,
-            editSource: {}
+            editSource: {},
         }
         this.addCar = this.addCar.bind(this)
         this.cancel = this.cancel.bind(this)
@@ -45,22 +46,35 @@ class Car extends React.Component{
             return(
                 <span>
                     <a href="javascript:;" onClick={()=>{
+                        this.showedit()
                         this.setState({
                             editSource: text,
-                            showModal: true
                         })
                     }}>编辑</a>
                     <Divider type="vertical" />
-                    <a href="javascript:;">Delete</a>
+                    <Popconfirm title="确定删除？" onConfirm={() => {
+                        this.props.dispatch({
+                            type: 'example/removeCar',
+                            payload: {
+                                data: {_id: text._id}
+                            }
+                        })
+                    }}>
+                        <a href="javascript:;">删除</a>
+                    </Popconfirm>
                 </span>
             )
         }
     }
     ]
-    // edit(e,text){
-    //     e.preventDefault()
-    //     console.log(text)
-    // }
+    showedit(){
+        this.props.dispatch({
+            type: 'example/changeEdit',
+            payload: {
+                data: true
+            }
+        })
+    }
     addCar(){
         this.setState({
             showModal: true
@@ -69,15 +83,23 @@ class Car extends React.Component{
     cancel(){
         this.setState({
             showModal: false,
-            editSource: null
+        })
+        this.props.dispatch({
+            type: 'example/changeEdit',
+            payload: {
+                data: false
+            }
+        })
+        this.props.dispatch({
+            type: 'example/car',
         })
     }
     render(){
-        const {carSource} = this.props
+        const {carSource, showEdit} = this.props
         return(
             <div>
                 <Button onClick={this.addCar}>
-                    添加维修
+                    添加车位信息
                 </Button>
                 <Modal
                     visible={this.state.showModal}
@@ -87,8 +109,18 @@ class Car extends React.Component{
                     onCancel={this.cancel}
                 >
                     <AddCar
-                        editSource={this.state.editSource}
                         cancel={this.cancel}
+                    />
+                </Modal>
+                <Modal
+                    visible={showEdit}
+                    footer={null}
+                    keyboard
+                    destroyOnClose={true}
+                    onCancel={this.cancel}
+                >
+                    <EditCar
+                        editSource={this.state.editSource}
                     />
                 </Modal>
                 <Table columns={this.columns} dataSource={carSource}/>
@@ -98,8 +130,9 @@ class Car extends React.Component{
 }
 
 export default connect((state) => {
-    const {carSource} = state.example
+    const {carSource,showEdit} = state.example
     return{
-        carSource: carSource
+        carSource: carSource,
+        showEdit: showEdit
     }
 })(Car);

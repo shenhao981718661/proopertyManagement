@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import { Form, Input, Button } from 'antd'
 import { Rules } from 'tslint';
 
-class AddEquipment extends React.Component{
+class EditSecurity extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -15,7 +15,7 @@ class AddEquipment extends React.Component{
         this.props.form.validateFields((err, values) => {
             if(!err){
                 this.props.dispatch({
-                    type: 'example/addEquipment',
+                    type: 'example/editSecurity',
                     payload: {
                         data: values
                     }
@@ -26,39 +26,47 @@ class AddEquipment extends React.Component{
     }
     render(){
         const { getFieldDecorator } = this.props.form
+        const data = this.props.editSource
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
-                        label="设备名称"
+                        label="姓名"
                     >
-                        {getFieldDecorator('name',{rules:[{required: true}]})(
+                        {getFieldDecorator('name',{rules:[{required: true}],initialValue: data.name})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
-                        label="设备价格"
+                        label="类型"
                     >
-                        {getFieldDecorator('money',{rules:[{required: true}]})(
+                        {getFieldDecorator('type',{rules:[{required: true}],initialValue: data.type})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
-                        label="设备规格"
+                        label="安保区域"
                     >
-                        {getFieldDecorator('norms',{rules:[{required: true}]})(
+                        {getFieldDecorator('region',{rules:[{required: true}],initialValue: data.region})(
+                            <Input />
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label="上班时间"
+                    >
+                        {getFieldDecorator('date',{rules:[{required: true}],initialValue: data.date})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="备注"
                     >
-                        {getFieldDecorator('remarks',{rules:[{required: true}]})(
+                        {getFieldDecorator('remarks',{rules:[{required: true}],initialValue: data.remarks})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator('_id')(
+                        {getFieldDecorator('_id',{initialValue: data._id})(
                             <Input hidden={true} />
                         )}
                     </Form.Item>
@@ -75,5 +83,5 @@ class AddEquipment extends React.Component{
         )
     }
 }
-AddEquipment = Form.create({})(AddEquipment)
-export default connect()(AddEquipment)
+EditSecurity = Form.create({})(EditSecurity)
+export default connect()(EditSecurity)

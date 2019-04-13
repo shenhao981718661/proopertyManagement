@@ -12,7 +12,7 @@ export function query(payload) {
     body: JSON.stringify(payload),
   });
 }
-export function queryUser(payload) {
+export function queryuser(payload) {
   return request('http://localhost:4000/user/person', {
     method: 'get',
     headers: {
@@ -30,13 +30,34 @@ export function addUser(payload) {
     body: JSON.stringify(payload)
   })
 }
+export function editperson(payload) {
+  console.log(payload)
+  return request('http://localhost:4000/user/edit', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function removeperson(payload) {
+  console.log(payload)
+  return request('http://localhost:4000/user/remove', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+
+//设备管理
 export function equipMentD(payload) {
   return request('http://localhost:4000/equipment', {
     method: 'get'
   })
 }
 export function addE(payload) {
-  console.log(JSON.stringify(payload))
   return request("http://localhost:4000/equipment/add",{
     method: 'post',
     headers: {
@@ -45,11 +66,59 @@ export function addE(payload) {
     body: JSON.stringify(payload)
   })
 }
+export function editequipment(payload) {
+  return request("http://localhost:4000/equipment/edit",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function removeequipment(payload) {
+  return request("http://localhost:4000/equipment/remove",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+
+
 export function securitY(payload) {
   return request("http://localhost:4000/security",{
     method: 'get'
   })
 }
+export function addsecurity(payload) {
+  return request("http://localhost:4000/security/add",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function editsecurity(payload) {
+  return request("http://localhost:4000/security/edit",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function removesecurity(payload) {
+  return request("http://localhost:4000/security/remove",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+
 export function owneR(payload) {
   return request("http://localhost:4000/owner",{
     method: 'get'
@@ -139,6 +208,27 @@ export function addcar(payload) {
     body: JSON.stringify(payload)
   })
 }
+export function editcar(payload) {
+  return request("http://localhost:4000/car/edit",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function removecar(payload) {
+  console.log(payload)
+  return request("http://localhost:4000/car/remove",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+
+
 export function messagE(payload) {
   return request("http://localhost:4000/message",{
     method: 'get'

@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import { Form, Input, Button } from 'antd'
 import { Rules } from 'tslint';
 
-class AddEquipment extends React.Component{
+class EditCar extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -15,50 +15,63 @@ class AddEquipment extends React.Component{
         this.props.form.validateFields((err, values) => {
             if(!err){
                 this.props.dispatch({
-                    type: 'example/addEquipment',
+                    type: 'example/editCar',
                     payload: {
                         data: values
                     }
                 })
-                this.props.cancel()
+                this.props.dispatch({
+                    type: 'example/changeEdit',
+                    payload: {
+                        data: false
+                    }
+                })
             }
         })
     }
     render(){
         const { getFieldDecorator } = this.props.form
+        const data = this.props.editSource
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
-                        label="设备名称"
+                        label="车位"
                     >
-                        {getFieldDecorator('name',{rules:[{required: true}]})(
+                        {getFieldDecorator('parkingLog',{rules:[{required: true}],initialValue:data.parkingLog})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
-                        label="设备价格"
+                        label="车牌"
                     >
-                        {getFieldDecorator('money',{rules:[{required: true}]})(
+                        {getFieldDecorator('licensePlate',{rules:[{required: true}],initialValue:data.licensePlate})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
-                        label="设备规格"
+                        label="车型"
                     >
-                        {getFieldDecorator('norms',{rules:[{required: true}]})(
+                        {getFieldDecorator('model',{rules:[{required: true}],initialValue:data.model})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
-                        label="备注"
+                        label="业主"
                     >
-                        {getFieldDecorator('remarks',{rules:[{required: true}]})(
+                        {getFieldDecorator('name',{rules:[{required: true}],initialValue:data.name})(
+                            <Input />
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label="房号"
+                    >
+                        {getFieldDecorator('room',{rules:[{required: true}],initialValue:data.room})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator('_id')(
+                        {getFieldDecorator('_id',{initialValue:data._id})(
                             <Input hidden={true} />
                         )}
                     </Form.Item>
@@ -67,7 +80,7 @@ class AddEquipment extends React.Component{
                             type="primary"
                             htmlType="submit"
                         >
-                            添加
+                            修改
                         </Button>
                     </Form.Item>
                 </Form>
@@ -75,5 +88,7 @@ class AddEquipment extends React.Component{
         )
     }
 }
-AddEquipment = Form.create({})(AddEquipment)
-export default connect()(AddEquipment)
+EditCar = Form.create({})(EditCar)
+export default connect((state) => {
+    console.log(state)
+})(EditCar)
