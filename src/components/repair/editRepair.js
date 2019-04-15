@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import { Form, Input, Button } from 'antd'
 import { Rules } from 'tslint';
 
-class AddRepair extends React.Component{
+class EditRepair extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -15,50 +15,50 @@ class AddRepair extends React.Component{
         this.props.form.validateFields((err, values) => {
             if(!err){
                 this.props.dispatch({
-                    type: 'example/addRepair',
+                    type: 'example/editRepair',
                     payload: {
                         data: values
                     }
                 })
-                this.props.cancel();
             }
         })
     }
     render(){
-        const { getFieldDecorator } = this.props.form
+        const { getFieldDecorator } = this.props.form;
+        const data = this.props.editSource;
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
                         label="维修项目"
                     >
-                        {getFieldDecorator('name',{rules:[{required: true}]})(
+                        {getFieldDecorator('name',{rules:[{required: true}],initialValue: data.name})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="维修内容"
                     >
-                        {getFieldDecorator('content',{rules:[{required: true}]})(
+                        {getFieldDecorator('content',{rules:[{required: true}],initialValue: data.content})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="维修费用"
                     >
-                        {getFieldDecorator('money',{rules:[{required: true}]})(
+                        {getFieldDecorator('money',{rules:[{required: true}],initialValue: data.money})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="维修日期"
                     >
-                        {getFieldDecorator('date',{rules:[{required: true}]})(
+                        {getFieldDecorator('date',{rules:[{required: true}],initialValue: data.date})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator('_id')(
+                        {getFieldDecorator('_id',{initialValue: data._id})(
                             <Input hidden={true} />
                         )}
                     </Form.Item>
@@ -75,5 +75,5 @@ class AddRepair extends React.Component{
         )
     }
 }
-AddRepair = Form.create({})(AddRepair)
-export default connect()(AddRepair)
+EditRepair = Form.create({})(EditRepair)
+export default connect()(EditRepair)

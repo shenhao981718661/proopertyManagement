@@ -33,6 +33,8 @@ import {query,
   removehousing,
   editcomplaint,
   removecomplaint,
+  editrepair,
+  removerepair,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -254,7 +256,7 @@ export default {
       }
     },
 
-
+    //维修管理模块
     *repair(payload, {call, put}){
       const cb = yield call(repaiR)
       if(cb){
@@ -264,7 +266,23 @@ export default {
     *addRepair({payload: {data}}, {call, put}){
       const cb = yield call(addrepair, data)
       if(cb){
+        yield put({type: 'repair'})
         message.success("添加成功")
+      }
+    },
+    *editRepair({payload: {data}}, {call, put}){
+      const cb = yield call(editrepair,data)
+      if(cb){
+        message.success("修改成功")
+        yield put({type: 'changeEdit',payload:{data: false} })
+        yield put({type: 'repair'})
+      }
+    },
+    *removeRepair({payload: {data}},{call, put}){
+      const cb = yield call(removerepair,data)
+      if(cb){
+        message.success("删除成功")
+        yield put({type: 'repair'})
       }
     },
     *report(payload, {call, put}){

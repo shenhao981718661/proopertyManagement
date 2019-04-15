@@ -219,7 +219,7 @@ export function editcomplaint(payload) {
   })
 }
 
-
+//维修模块
 export function repaiR(payload) {
   return request("http://localhost:4000/repair",{
     method: 'get'
@@ -234,6 +234,26 @@ export function addrepair(payload) {
     body: JSON.stringify(payload)
   })
 }
+export function removerepair(payload) {
+  return request("http://localhost:4000/repair/remove",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function editrepair(payload) {
+  return request("http://localhost:4000/repair/edit",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+
+
 export function reporT(payload) {
   return request("http://localhost:4000/report",{
     method: 'get'
