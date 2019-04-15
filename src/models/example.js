@@ -27,6 +27,8 @@ import {query,
   addsecurity,
   editsecurity,
   removesecurity,
+  removeowner,
+  editowner,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -169,6 +171,21 @@ export default {
       const cb = yield call(addowner, data)
       if(cb){
         message.success("添加成功")
+      }
+    },
+    *removeOwner({payload: {data}}, {call, put}){
+      const cb = yield call(removeowner, data)
+      if(cb){
+        message.success("删除成功")
+        yield put({type: 'owner'})
+      }
+    },
+    *editOwner({payload: {data}}, {call, put}){
+      const cb = yield call(editowner, data)
+      if(cb){
+        yield put({type: 'owner'})
+        yield put({type: 'changeEdit',payload:{data: false} })
+        message.success("修改成功")
       }
     },
     *housing(payload, {call, put}){

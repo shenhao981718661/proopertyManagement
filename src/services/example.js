@@ -133,6 +133,24 @@ export function addowner(payload) {
     body: JSON.stringify(payload)
   })
 }
+export function removeowner(payload) {
+  return request("http://localhost:4000/owner/remove",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function editowner(payload) {
+  return request("http://localhost:4000/owner/edit",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
 export function housinG(payload) {
   return request("http://localhost:4000/housing",{
     method: 'get'

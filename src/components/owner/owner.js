@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Divider, Button, Modal } from 'antd'
 import AddOwner from './addOwner.js'
+import EditOwner from './editOwner.js'
 
 class Owner extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            showModal: false
+            showModal: false,
+            editSource: null,
         }
         this.addOwner = this.addOwner.bind(this)
         this.cancel = this.cancel.bind(this)
@@ -50,9 +52,29 @@ class Owner extends React.Component{
         render: (text, record) => {
             return(
                 <span>
-                    <a href="#">编辑</a>
-                    <Divider type="vertical" />
-                    <a href="javascript:;">Delete</a>
+                    <a href="javascript:;" onClick={() => {
+                        console.log(text)
+                this.setState({
+                    editSource: text,
+                })
+                this.props.dispatch({
+                    type: 'example/changeEdit',
+                    payload: {
+                        data: true
+                    }
+                })
+            }}>编辑</a>
+            <Divider type="vertical" />
+            <Popconfirm title="确定删除？" onConfirm={() => {
+                this.props.dispatch({
+                    type: 'example/removeOwner',
+                    payload: {
+                        data: {_id: text._id}
+                    }
+                })
+            }}>
+                <a href="#">删除</a>
+            </Popconfirm>
                 </span>
             )
         }
@@ -64,12 +86,18 @@ class Owner extends React.Component{
         })
     }
     cancel(){
+        this.props.dispatch({
+            type: 'example/changeEdit',
+            payload: {
+                data: false
+            }
+        })
         this.setState({
             showModal: false
         })
     }
     render(){
-        const {ownerSource} = this.props
+        const {ownerSource, showEdit} = this.props
         return(
             <div>
                 <Button onClick={this.addOwner}>
@@ -85,6 +113,17 @@ class Owner extends React.Component{
                         cancel={this.cancel}
                     />
                 </Modal>
+                <Modal
+                    visible={showEdit}
+                    footer={null}
+                    keyboard
+                    onCancel={this.cancel}
+                >
+                    <EditOwner
+                        editSource={this.state.editSource}
+                        cancel={this.cancel}
+                    />
+                </Modal>
                 <Table columns={this.columns} dataSource={ownerSource}/>
             </div>
         )
@@ -92,8 +131,9 @@ class Owner extends React.Component{
 }
 
 export default connect((state) => {
-    const {ownerSource} = state.example
+    const {ownerSource, showEdit} = state.example
     return{
-        ownerSource: ownerSource
+        ownerSource: ownerSource,
+        showEdit: showEdit,
     }
 })(Owner);
