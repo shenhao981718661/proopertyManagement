@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Divider, Button, Modal } from 'antd'
-// import AddReport from './addReport.js'
+import EditReport from './editReport.js'
 
 class Report extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            showModal: false
+            showModal: false,
+            editSource: null,
         }
         this.addReport = this.addReport.bind(this)
         this.cancel = this.cancel.bind(this)
@@ -37,16 +38,16 @@ class Report extends React.Component{
         title: '说明',
         dataIndex:'explain'
     },
-    {
-        title: '报修时间',
-        dataIndex:'date'
-    },
+    // {
+    //     title: '报修时间',
+    //     dataIndex:'date'
+    // },
     {
         title: '状态',
         dataIndex:'statu',
         render: (text,record) => {
             if(text == 1){
-                return <span>提交报修</span>
+                return <span>待处理</span>
             }else if(text == 2){
                 return <span>处理中</span>
             }else{
@@ -59,9 +60,28 @@ class Report extends React.Component{
         render: (text, record) => {
             return(
                 <span>
-                    <a href="#">编辑</a>
+                    <a href="javascript:;" onClick={() => {
+                    this.setState({
+                        editSource: text,
+                    })
+                    this.props.dispatch({
+                        type: 'example/changeEdit',
+                        payload: {
+                            data: true
+                        }
+                    })
+                    }}>编辑</a>
                     <Divider type="vertical" />
-                    <a href="javascript:;">Delete</a>
+                    <Popconfirm title="确定删除？" onConfirm={() => {
+                        this.props.dispatch({
+                            type: 'example/removeReport',
+                            payload: {
+                                data: {_id: text._id}
+                            }
+                        })
+                    }}>
+                        <a href="#">删除</a>
+                    </Popconfirm>
                 </span>
             )
         }
@@ -76,24 +96,31 @@ class Report extends React.Component{
         this.setState({
             showModal: false
         })
+        this.props.dispatch({
+            type: 'example/changeEdit',
+            payload: {
+                data: false
+            }
+        })
     }
     render(){
-        const {reportSource} = this.props
+        const {reportSource, showEdit} = this.props
         return(
             <div>
                 <Button onClick={this.addReport}>
                     添加报修
                 </Button>
-                {/* <Modal
-                    visible={this.state.showModal}
+                <Modal
+                    visible={showEdit}
                     footer={null}
                     keyboard
                     onCancel={this.cancel}
                 >
-                    <AddReport
+                    <EditReport
                         cancel={this.cancel}
+                        editSource={this.state.editSource}
                     />
-                </Modal> */}
+                </Modal>
                 <Table columns={this.columns} dataSource={reportSource}/>
             </div>
         )
@@ -101,8 +128,9 @@ class Report extends React.Component{
 }
 
 export default connect((state) => {
-    const {reportSource} = state.example
+    const {reportSource, showEdit} = state.example
     return{
-        reportSource: reportSource
+        reportSource: reportSource,
+        showEdit: showEdit,
     }
 })(Report);

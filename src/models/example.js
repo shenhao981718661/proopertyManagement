@@ -35,6 +35,8 @@ import {query,
   removecomplaint,
   editrepair,
   removerepair,
+  editreport,
+  removereport,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -285,10 +287,27 @@ export default {
         yield put({type: 'repair'})
       }
     },
+
+    //报修模块
     *report(payload, {call, put}){
       const cb = yield call(reporT)
       if(cb){
         yield put({type: 'reportSource', data: cb.data})
+      }
+    },
+    *editReport({payload: {data}}, {call, put}){
+      const cb = yield call(editreport,data)
+      if(cb){
+        message.success("修改成功")
+        yield put({type: 'changeEdit',payload:{data: false} })
+        yield put({type: 'report'})
+      }
+    },
+    *removeReport({payload: {data}},{call, put}){
+      const cb = yield call(removereport,data)
+      if(cb){
+        message.success("删除成功")
+        yield put({type: 'report'})
       }
     },
     *pay(payload, {call, put}){

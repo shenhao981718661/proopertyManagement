@@ -259,6 +259,24 @@ export function reporT(payload) {
     method: 'get'
   })
 }
+export function removereport(payload) {
+  return request("http://localhost:4000/report/remove",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function editreport(payload) {
+  return request("http://localhost:4000/report/edit",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
 export function paY(payload) {
   return request("http://localhost:4000/pay",{
     method: 'get'
