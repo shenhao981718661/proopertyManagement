@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Divider, Button, Modal } from 'antd'
 import AddHousing from './addHousing.js'
+import EditHousing from './editHousing.js'
 
 class Housing extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            showModal: false
+            showModal: false,
+            editSource: null,
         }
         this.addHousing = this.addHousing.bind(this)
         this.cancel = this.cancel.bind(this)
@@ -50,9 +52,28 @@ class Housing extends React.Component{
         render: (text, record) => {
             return(
                 <span>
-                    <a href="#">编辑</a>
+                    <a href="javascript:;" onClick={() => {
+                    this.setState({
+                        editSource: text,
+                    })
+                    this.props.dispatch({
+                        type: 'example/changeEdit',
+                        payload: {
+                            data: true
+                        }
+                    })
+                    }}>编辑</a>
                     <Divider type="vertical" />
-                    <a href="javascript:;">Delete</a>
+                    <Popconfirm title="确定删除？" onConfirm={() => {
+                        this.props.dispatch({
+                            type: 'example/removeHousing',
+                            payload: {
+                                data: {_id: text._id}
+                            }
+                        })
+                    }}>
+                        <a href="#">删除</a>
+                    </Popconfirm>
                 </span>
             )
         }
@@ -64,12 +85,19 @@ class Housing extends React.Component{
         })
     }
     cancel(){
+        console.log("123")
         this.setState({
             showModal: false
         })
+        this.props.dispatch({
+            type: 'example/changeEdit',
+            payload: {
+                data: false
+            }
+        })
     }
     render(){
-        const {housingSource} = this.props
+        const {housingSource, showEdit} = this.props
         return(
             <div>
                 <Button onClick={this.addHousing}>
@@ -85,6 +113,17 @@ class Housing extends React.Component{
                         cancel={this.cancel}
                     />
                 </Modal>
+                <Modal
+                    visible={showEdit}
+                    footer={null}
+                    keyboard
+                    onCancel={this.cancel}
+                >
+                    <EditHousing
+                        cancel={this.cancel}
+                        editSource={this.state.editSource}
+                    />
+                </Modal>
                 <Table columns={this.columns} dataSource={housingSource}/>
             </div>
         )
@@ -92,8 +131,9 @@ class Housing extends React.Component{
 }
 
 export default connect((state) => {
-    const {housingSource} = state.example
+    const {housingSource, showEdit} = state.example
     return{
+        showEdit: showEdit,
         housingSource: housingSource
     }
 })(Housing);

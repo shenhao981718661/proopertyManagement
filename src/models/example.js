@@ -29,6 +29,8 @@ import {query,
   removesecurity,
   removeowner,
   editowner,
+  edithousing,
+  removehousing,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -170,6 +172,7 @@ export default {
     *addOwner({payload: {data}}, {call, put}){
       const cb = yield call(addowner, data)
       if(cb){
+        yield put({type: 'owner'})
         message.success("添加成功")
       }
     },
@@ -188,6 +191,8 @@ export default {
         message.success("修改成功")
       }
     },
+
+    //住户管理模块
     *housing(payload, {call, put}){
       const cb = yield call(housinG)
       if(cb){
@@ -197,9 +202,27 @@ export default {
     *addHousing({payload: {data}}, {call, put}){
       const cb = yield call(addhousing, data)
       if(cb){
+        yield put({type: 'housing'})
         message.success("添加成功")
       }
     },
+    *editHousing({payload: {data}}, {call, put}){
+      const cb = yield call(edithousing,data)
+      if(cb){
+        message.success("修改成功")
+        yield put({type: 'changeEdit',payload:{data: false} })
+        yield put({type: 'housing'})
+      }
+    },
+    *removeHousing({payload: {data}},{call, put}){
+      const cb = yield call(removehousing,data)
+      if(cb){
+        message.success("删除成功")
+        yield put({type: 'housing'})
+      }
+    },
+
+
     *complaint(payload, {call, put}){
       const cb = yield call(complainT)
       if(cb){

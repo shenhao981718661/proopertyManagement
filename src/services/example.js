@@ -151,6 +151,7 @@ export function editowner(payload) {
     body: JSON.stringify(payload)
   })
 }
+//住户管理模块
 export function housinG(payload) {
   return request("http://localhost:4000/housing",{
     method: 'get'
@@ -165,6 +166,26 @@ export function addhousing(payload) {
     body: JSON.stringify(payload)
   })
 }
+export function removehousing(payload) {
+  return request("http://localhost:4000/housing/remove",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function edithousing(payload) {
+  return request("http://localhost:4000/housing/edit",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+
+
 export function complainT(payload) {
   return request("http://localhost:4000/complaint",{
     method: 'get'

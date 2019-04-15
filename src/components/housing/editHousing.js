@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'dva'
 import { Form, Input, Button } from 'antd'
-import { Rules } from 'tslint';
 
-class AddHousing extends React.Component{
+class EditHousing extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -15,71 +14,72 @@ class AddHousing extends React.Component{
         this.props.form.validateFields((err, values) => {
             if(!err){
                 this.props.dispatch({
-                    type: 'example/addHousing',
+                    type: 'example/editHousing',
                     payload: {
                         data: values
                     }
                 })
-                this.props.cancel()
             }
         })
     }
     render(){
         const { getFieldDecorator } = this.props.form
+        const data = this.props.editSource
+        console.log(data)
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
                         label="姓名"
                     >
-                        {getFieldDecorator('name',{rules:[{required: true}]})(
+                        {getFieldDecorator('name',{rules:[{required: true}],initialValue: data.name})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="年龄"
                     >
-                        {getFieldDecorator('age',{rules:[{required: true}]})(
+                        {getFieldDecorator('age',{rules:[{required: true}],initialValue: data.age})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="性别"
                     >
-                        {getFieldDecorator('sex',{rules:[{required: true}]})(
+                        {getFieldDecorator('sex',{rules:[{required: true}],initialValue: data.sex})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="房号"
                     >
-                        {getFieldDecorator('room',{rules:[{required: true}]})(
+                        {getFieldDecorator('room',{rules:[{required: true}],initialValue: data.room})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="电话"
                     >
-                        {getFieldDecorator('tel',{rules:[{required: true}]})(
+                        {getFieldDecorator('tel',{rules:[{required: true}],initialValue: data.tel})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="入住时间"
                     >
-                        {getFieldDecorator('date',{rules:[{required: true}]})(
+                        {getFieldDecorator('date',{rules:[{required: true}],initialValue: data.date})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="备注"
                     >
-                        {getFieldDecorator('remarks',{rules:[{required: true}]})(
+                        {getFieldDecorator('remarks',{rules:[{required: true}],initialValue: data.remarks})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator('_id')(
+                        {getFieldDecorator('_id',{initialValue: data._id})(
                             <Input hidden={true} />
                         )}
                     </Form.Item>
@@ -96,5 +96,5 @@ class AddHousing extends React.Component{
         )
     }
 }
-AddHousing = Form.create({})(AddHousing)
-export default connect()(AddHousing)
+EditHousing = Form.create({})(EditHousing)
+export default connect()(EditHousing)

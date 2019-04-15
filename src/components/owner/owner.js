@@ -52,8 +52,7 @@ class Owner extends React.Component{
         render: (text, record) => {
             return(
                 <span>
-                    <a href="javascript:;" onClick={() => {
-                        console.log(text)
+                <a href="javascript:;" onClick={() => {
                 this.setState({
                     editSource: text,
                 })
