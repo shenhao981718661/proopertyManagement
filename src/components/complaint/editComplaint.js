@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import { Form, Input, Button } from 'antd'
 import { Rules } from 'tslint';
 
-class AddComplaint extends React.Component{
+class EditComplaint extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -15,50 +15,51 @@ class AddComplaint extends React.Component{
         this.props.form.validateFields((err, values) => {
             if(!err){
                 this.props.dispatch({
-                    type: 'example/addComplaint',
+                    type: 'example/editComplaint',
                     payload: {
                         data: values
                     }
                 })
-                this.props.cancel();
             }
         })
     }
     render(){
-        const { getFieldDecorator } = this.props.form
+        const { getFieldDecorator } = this.props.form;
+        const data = this.props.editSource;
+
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
                         label="姓名"
                     >
-                        {getFieldDecorator('name',{rules:[{required: true}]})(
-                            <Input />
+                        {getFieldDecorator('name',{rules:[{required: true}],initialValue: data.name})(
+                            <Input disabled={true} />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="投诉内容"
                     >
-                        {getFieldDecorator('content',{rules:[{required: true}]})(
-                            <Input />
+                        {getFieldDecorator('content',{rules:[{required: true}],initialValue: data.content})(
+                            <Input disabled={true} />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="投诉日期"
                     >
-                        {getFieldDecorator('date',{rules:[{required: true}]})(
-                            <Input />
+                        {getFieldDecorator('date',{rules:[{required: true}],initialValue: data.date})(
+                            <Input disabled={true} />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="处理结果"
                     >
-                        {getFieldDecorator('result',{rules:[{required: true}]})(
+                        {getFieldDecorator('result',{rules:[{required: true}],initialValue: data.result})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator('_id')(
+                        {getFieldDecorator('_id',{initialValue: data._id})(
                             <Input hidden={true} />
                         )}
                     </Form.Item>
@@ -75,5 +76,5 @@ class AddComplaint extends React.Component{
         )
     }
 }
-AddComplaint = Form.create({})(AddComplaint)
-export default connect()(AddComplaint)
+EditComplaint = Form.create({})(EditComplaint)
+export default connect()(EditComplaint)

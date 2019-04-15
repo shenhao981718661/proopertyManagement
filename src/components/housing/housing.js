@@ -85,7 +85,6 @@ class Housing extends React.Component{
         })
     }
     cancel(){
-        console.log("123")
         this.setState({
             showModal: false
         })

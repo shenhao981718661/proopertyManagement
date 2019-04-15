@@ -185,7 +185,7 @@ export function edithousing(payload) {
   })
 }
 
-
+//投诉模块
 export function complainT(payload) {
   return request("http://localhost:4000/complaint",{
     method: 'get'
@@ -200,6 +200,26 @@ export function addcomplaint(payload) {
     body: JSON.stringify(payload)
   })
 }
+export function removecomplaint(payload) {
+  return request("http://localhost:4000/complaint/remove",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function editcomplaint(payload) {
+  return request("http://localhost:4000/complaint/edit",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+
+
 export function repaiR(payload) {
   return request("http://localhost:4000/repair",{
     method: 'get'

@@ -31,6 +31,8 @@ import {query,
   editowner,
   edithousing,
   removehousing,
+  editcomplaint,
+  removecomplaint,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -222,7 +224,7 @@ export default {
       }
     },
 
-
+    //投诉模块
     *complaint(payload, {call, put}){
       const cb = yield call(complainT)
       if(cb){
@@ -233,8 +235,26 @@ export default {
       const cb = yield call(addcomplaint, data)
       if(cb){
         message.success("添加成功")
+        yield put({type: 'complaint'})
       }
     },
+    *editComplaint({payload: {data}}, {call, put}){
+      const cb = yield call(editcomplaint,data)
+      if(cb){
+        message.success("修改成功")
+        yield put({type: 'changeEdit',payload:{data: false} })
+        yield put({type: 'complaint'})
+      }
+    },
+    *removeComplaint({payload: {data}},{call, put}){
+      const cb = yield call(removecomplaint,data)
+      if(cb){
+        message.success("删除成功")
+        yield put({type: 'complaint'})
+      }
+    },
+
+
     *repair(payload, {call, put}){
       const cb = yield call(repaiR)
       if(cb){
