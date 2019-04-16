@@ -37,6 +37,8 @@ import {query,
   removerepair,
   editreport,
   removereport,
+  editpay,
+  removepay,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -310,6 +312,8 @@ export default {
         yield put({type: 'report'})
       }
     },
+
+    //缴费管理模块
     *pay(payload, {call, put}){
       const cb = yield call(paY)
       if(cb){
@@ -320,8 +324,26 @@ export default {
       const cb = yield call(addpay, data)
       if(cb){
         message.success("添加成功")
+        yield put({type: 'pay'})
       }
     },
+    *editPay({payload: {data}}, {call, put}){
+      const cb = yield call(editpay,data)
+      if(cb){
+        message.success("修改成功")
+        yield put({type: 'changeEdit',payload:{data: false} })
+        yield put({type: 'pay'})
+      }
+    },
+    *removePay({payload: {data}},{call, put}){
+      const cb = yield call(removepay,data)
+      if(cb){
+        message.success("删除成功")
+        yield put({type: 'pay'})
+      }
+    },
+
+
     *car(payload, {call, put}){
       const cb = yield call(caR)
       if(cb){

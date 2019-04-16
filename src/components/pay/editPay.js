@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import { Form, Input, Button } from 'antd'
 import { Rules } from 'tslint';
 
-class AddPay extends React.Component{
+class EditPay extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -15,57 +15,57 @@ class AddPay extends React.Component{
         this.props.form.validateFields((err, values) => {
             if(!err){
                 this.props.dispatch({
-                    type: 'example/addPay',
+                    type: 'example/editPay',
                     payload: {
                         data: values
                     }
                 })
-                this.props.cancel()
             }
         })
     }
     render(){
-        const { getFieldDecorator } = this.props.form
+        const { getFieldDecorator } = this.props.form;
+        const data = this.props.editSource;
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
                         label="房号"
                     >
-                        {getFieldDecorator('room',{rules:[{required: true}]})(
+                        {getFieldDecorator('room',{rules:[{required: true}],initialValue: data.room})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="物业费"
                     >
-                        {getFieldDecorator('property',{rules:[{required: true}]})(
+                        {getFieldDecorator('property',{rules:[{required: true}],initialValue: data.property})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="车位费"
                     >
-                        {getFieldDecorator('car',{rules:[{required: true}]})(
+                        {getFieldDecorator('car',{rules:[{required: true}],initialValue: data.car})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="月份"
                     >
-                        {getFieldDecorator('month',{rules:[{required: true}]})(
+                        {getFieldDecorator('month',{rules:[{required: true}],initialValue: data.month})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="缴费日期"
                     >
-                        {getFieldDecorator('date',{rules:[{required: true}]})(
+                        {getFieldDecorator('date',{rules:[{required: true}],initialValue: data.date})(
                             <Input />
                         )}
                     </Form.Item>
                     <Form.Item>
-                        {getFieldDecorator('_id')(
+                        {getFieldDecorator('_id',{initialValue: data._id})(
                             <Input hidden={true} />
                         )}
                     </Form.Item>
@@ -74,7 +74,7 @@ class AddPay extends React.Component{
                             type="primary"
                             htmlType="submit"
                         >
-                            添加
+                            修改
                         </Button>
                     </Form.Item>
                 </Form>
@@ -82,5 +82,5 @@ class AddPay extends React.Component{
         )
     }
 }
-AddPay = Form.create({})(AddPay)
-export default connect()(AddPay)
+EditPay = Form.create({})(EditPay)
+export default connect()(EditPay)

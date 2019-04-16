@@ -4,13 +4,39 @@ import {Link} from 'dva/router'
 import './navleft.less'
 import logo from '../../assets/logo.jpg'
 import { connect } from 'dva';
+import menuList from './menuList'
 const SubMenu = Menu.SubMenu
 
 class Navleft extends React.Component{
     constructor(props){
         super(props)
-        this.state={}
+        this.setState({
+      })
     }
+      componentWillMount(){
+        const treeNode = this.treeNode(menuList)
+        this.setState({
+            treeNode
+        })
+      }
+        
+    
+
+    treeNode(menuList){
+      return menuList.map((item) => {
+        if(item.children){
+          return (
+            <SubMenu key={item.key} title={item.title}>
+                {this.treeNode(item.children)}
+            </SubMenu>
+          )
+        }
+        return <Menu.Item key={item.key} title={item.title}>
+                <Link to={item.key}>{item.title}</Link>
+        </Menu.Item>
+      })
+    }
+
     render(){
       const type = this.props.type
       console.log(this.props)
@@ -19,11 +45,11 @@ class Navleft extends React.Component{
                 <div className="logo" ><img src={logo}/></div>
                   <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                     {/* {(type == 2 || type == 3) ?  */}
-                      <Menu.Item key="1">
+                      {/* <Menu.Item key="1">
                       <Link to='/index/personnel'>人事管理</Link>
-                    </Menu.Item>
+                    </Menu.Item> */}
                     {/* } */}
-                    <Menu.Item key="2">
+                    {/* <Menu.Item key="2">
                       <Link to='/index/equipment'>设置管理</Link>
                     </Menu.Item>
                     <Menu.Item key="3">
@@ -51,7 +77,8 @@ class Navleft extends React.Component{
                     </Menu.Item>
                     <Menu.Item key="10">
                       <Link to ='/index/'>退出系统</Link>
-                    </Menu.Item>
+                    </Menu.Item> */}
+                    {this.state.treeNode}
                   </Menu>
             </div>
         )

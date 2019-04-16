@@ -291,6 +291,25 @@ export function addpay(payload) {
     body: JSON.stringify(payload)
   })
 }
+export function editpay(payload) {
+  return request("http://localhost:4000/pay/edit",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
+export function removepay(payload) {
+  console.log(payload)
+  return request("http://localhost:4000/pay/remove",{
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+}
 export function caR(payload) {
   return request("http://localhost:4000/car",{
     method: 'get'

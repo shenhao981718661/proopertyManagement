@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Divider, Button, Modal } from 'antd'
 import AddPay from './addPay.js'
+import EditPay from './editPay.js'
 
 class Pay extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            showModal: false
+            showModal: false,
+            editSource: null,
         }
         this.addPay = this.addPay.bind(this)
         this.cancel = this.cancel.bind(this)
@@ -42,9 +44,28 @@ class Pay extends React.Component{
         render: (text, record) => {
             return(
                 <span>
-                    <a href="#">编辑</a>
+                    <a href="javascript:;" onClick={() => {
+                    this.setState({
+                        editSource: text,
+                    })
+                    this.props.dispatch({
+                        type: 'example/changeEdit',
+                        payload: {
+                            data: true
+                        }
+                    })
+                    }}>编辑</a>
                     <Divider type="vertical" />
-                    <a href="javascript:;">Delete</a>
+                    <Popconfirm title="确定删除？" onConfirm={() => {
+                        this.props.dispatch({
+                            type: 'example/removePay',
+                            payload: {
+                                data: {_id: text._id}
+                            }
+                        })
+                    }}>
+                        <a href="#">删除</a>
+                    </Popconfirm>
                 </span>
             )
         }
@@ -59,9 +80,15 @@ class Pay extends React.Component{
         this.setState({
             showModal: false
         })
+        this.props.dispatch({
+            type: 'example/changeEdit',
+            payload: {
+                data: false
+            }
+        })
     }
     render(){
-        const {paySource} = this.props
+        const {paySource, showEdit} = this.props
         return(
             <div>
                 <Button onClick={this.addPay}>
@@ -77,6 +104,17 @@ class Pay extends React.Component{
                         cancel={this.cancel}
                     />
                 </Modal>
+                <Modal
+                    visible={showEdit}
+                    footer={null}
+                    keyboard
+                    onCancel={this.cancel}
+                >
+                    <EditPay
+                        editSource={this.state.editSource}
+                        cancel={this.cancel}
+                    />
+                </Modal>
                 <Table columns={this.columns} dataSource={paySource}/>
             </div>
         )
@@ -84,8 +122,9 @@ class Pay extends React.Component{
 }
 
 export default connect((state) => {
-    const {paySource} = state.example
+    const {paySource, showEdit} = state.example
     return{
+        showEdit,
         paySource: paySource
     }
 })(Pay);
