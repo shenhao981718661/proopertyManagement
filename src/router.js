@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch } from 'dva/router';
+import { Router, Route, Switch, Redirect } from 'dva/router';
 import IndexPage from './routes/IndexPage';
 import Main from './common/index/index';
 import Personnel from './components/personnel/personnel.js'
@@ -16,7 +16,6 @@ import Message from './components/message/message.js'
 
 function RouterConfig({ history }) {
   return (
-    <div>
     <Router history={history}>
       <Switch>
         <Route path="/" exact component={IndexPage} />
@@ -40,7 +39,6 @@ function RouterConfig({ history }) {
         </Route>
       </Switch>
     </Router>
-    </div>
   );
 }
 

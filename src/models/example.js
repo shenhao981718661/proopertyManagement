@@ -77,6 +77,7 @@ export default {
       console.log(cb.data.success)
       if(cb && cb.data){
         if(cb.data.success){
+          console.log(cb)
           yield put({type: 'changType', data: cb.data.type})
           window.location.hash = 'index'
         }else{
@@ -85,7 +86,6 @@ export default {
       }
     },
     *queryUser(payload, {call, put}) {
-      console.log("123")
       const cb = yield call(queryuser)
       if(cb){
         yield put({type: 'changeUserList', data: cb.data})

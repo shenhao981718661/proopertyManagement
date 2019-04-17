@@ -16,8 +16,7 @@ class Main extends React.Component{
       }
     render(){
         return(
-            <div >
-                <Layout>
+                <Layout style={{height: '100%'}}>
                 <Sider
                   trigger={null}
                   collapsible
@@ -42,7 +41,6 @@ class Main extends React.Component{
               </Content>
             </Layout>
           </Layout>
-        </div>
         )
     }
 }

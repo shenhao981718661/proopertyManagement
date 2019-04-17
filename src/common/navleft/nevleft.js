@@ -4,7 +4,7 @@ import {Link} from 'dva/router'
 import './navleft.less'
 import logo from '../../assets/logo.jpg'
 import { connect } from 'dva';
-import menuList from './menuList'
+import {managerMenuList,userMenuList,adminMenuList} from './menuList'
 const SubMenu = Menu.SubMenu
 
 class Navleft extends React.Component{
@@ -14,16 +14,32 @@ class Navleft extends React.Component{
       })
     }
       componentWillMount(){
-        const treeNode = this.treeNode(menuList)
+        const menulist = this.chooseMenu();
+        console.log(menulist)
+        const treeNode = this.treeNode(menulist)
         this.setState({
             treeNode
         })
       }
-        
+    
+    chooseMenu(){
+      const type = this.props.type
+      let x = ''
+      if(type === '1'){
+        x = userMenuList;
+      }else if(type === 2){
+        x = managerMenuList;
+      }else{
+        x = adminMenuList
+      }
+      console.log(x)
+      return x;
+    }
     
 
-    treeNode(menuList){
-      return menuList.map((item) => {
+    treeNode(menulist){
+      console.log(menulist)
+      return menulist.map((item) => {
         if(item.children){
           return (
             <SubMenu key={item.key} title={item.title}>
