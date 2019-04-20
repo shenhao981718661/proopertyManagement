@@ -14,6 +14,9 @@ import Pay from './components/pay/pay.js'
 import Car from './components/car/car.js'
 import Message from './components/message/message.js'
 
+//用户模块
+import User from './components/user/user.js'
+
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
@@ -33,6 +36,15 @@ function RouterConfig({ history }) {
               <Route path='/index/pay' component={Pay}/>
               <Route path='/index/car' component={Car}/>
               <Route path='/index/message' component={Message}/>
+              <Route path="/index/user"  render={()=>
+                <Switch>
+                  <Route path='/index/user/user' component={User}/>
+                  <Route path='/index/user/pay' component={Equipment}/>
+                  <Route path='/index/user/repair' component={Security}/>
+                  <Route path='/index/user/car' component={Owner}/>
+                  <Route path='/index/user/message' component={Housing}/>
+                </Switch>
+              }></Route>
             </Switch>
           </Main>
         }>

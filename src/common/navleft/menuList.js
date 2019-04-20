@@ -127,31 +127,31 @@ const adminMenuList = [
   const userMenuList = [
     {
       title: '主页',
-      key: '/user'
+      key: '/index/user'
     },
     {
       title: '个人信息',
-      key: '/user/user'
+      key: '/index/user/user'
     },
     {
       title: '费用管理',
-      key: '/user/pay'
+      key: '/index/user/pay'
     },
     {
       title: '报修管理',
-      key: '/user/repair'
+      key: '/index/user/repair'
     },
     {
       title: '车位管理',
-      key: '/user/car'
+      key: '/index/user/car'
     },
     {
       title: '留言',
-      key: '/user/message'
+      key: '/index/user/message'
     },
     {
       title: '退出系统',
-      key: '/user/quit'
+      key: '/index/user/quit'
     },
   ]
   

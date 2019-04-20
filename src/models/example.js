@@ -61,6 +61,7 @@ export default {
     carSource: [],
     messageSource: [],
     showEdit: false,
+    userInformation: {}
   },
 
   subscriptions: {
@@ -77,9 +78,14 @@ export default {
       console.log(cb.data.success)
       if(cb && cb.data){
         if(cb.data.success){
-          console.log(cb)
           yield put({type: 'changType', data: cb.data.type})
-          window.location.hash = 'index'
+          yield put({type: 'changeUserInformation',data: cb.data._doc})
+          console.log(cb.data._doc)
+          if(cb.data.type === '1'){
+            window.location.hash = '/index/user'
+          }else{
+            window.location.hash = 'index'
+          }
         }else{
           message.error('用户名或密码错误')
         }
@@ -426,6 +432,10 @@ export default {
     },
     changeEdit(state, {payload: {data}}){
       return {...state, showEdit: data}
+    },
+    changeUserInformation(state, {data}){
+      console.log(data)
+      return {...state, userInformation: data}
     }
   },
 

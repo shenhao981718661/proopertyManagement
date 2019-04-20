@@ -15,7 +15,6 @@ class Navleft extends React.Component{
     }
       componentWillMount(){
         const menulist = this.chooseMenu();
-        console.log(menulist)
         const treeNode = this.treeNode(menulist)
         this.setState({
             treeNode
@@ -32,13 +31,11 @@ class Navleft extends React.Component{
       }else{
         x = adminMenuList
       }
-      console.log(x)
       return x;
     }
     
 
     treeNode(menulist){
-      console.log(menulist)
       return menulist.map((item) => {
         if(item.children){
           return (
@@ -55,7 +52,6 @@ class Navleft extends React.Component{
 
     render(){
       const type = this.props.type
-      console.log(this.props)
         return(
             <div>
                 <div className="logo" ><img src={logo}/></div>
