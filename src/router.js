@@ -16,6 +16,7 @@ import Message from './components/message/message.js'
 
 //用户模块
 import User from './components/user/user.js'
+import UserPay from './components/user/pay.js'
 
 function RouterConfig({ history }) {
   return (
@@ -39,7 +40,7 @@ function RouterConfig({ history }) {
               <Route path="/index/user"  render={()=>
                 <Switch>
                   <Route path='/index/user/user' component={User}/>
-                  <Route path='/index/user/pay' component={Equipment}/>
+                  <Route path='/index/user/pay' component={UserPay}/>
                   <Route path='/index/user/repair' component={Security}/>
                   <Route path='/index/user/car' component={Owner}/>
                   <Route path='/index/user/message' component={Housing}/>

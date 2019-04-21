@@ -10,6 +10,12 @@ class User extends React.Component{
         this.cancel = this.cancel.bind(this);
     }
     componentDidMount(){
+        this.props.dispatch({
+            type: 'user/questInfoByRoom',
+            payload: {
+                data: {room: this.props.room}
+            }
+        })
     }
     
     showModal(){
@@ -48,8 +54,8 @@ class User extends React.Component{
         })
     }
     render(){
-        const {userName, showEdit} = this.props
-        console.log(this.props)
+        const {userName, showEdit, userinfo} = this.props
+        console.log(userinfo)
         const { getFieldDecorator } = this.props.form;
         return(
             <div>
@@ -109,11 +115,13 @@ class User extends React.Component{
 
 export default connect((state) => {
     const {userInformation} = state.example;
-    const {showEdit} = state.user;
+    const {showEdit,userinfo} = state.user;
     return{
         userName: userInformation.userName,
         _id: userInformation._id,
         showEdit,
+        room: userInformation.room,
+        userinfo,
     }
 })(Form.create({})(User));
 // AddSecurity = Form.create({})(AddSecurity)
