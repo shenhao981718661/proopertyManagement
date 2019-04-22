@@ -3,6 +3,8 @@ import {
     changepassword,
     questinfobyroom,
     querypay,
+    userreport,
+    addreport,
 } from '../services/userQuest'
 
 export default {
@@ -11,6 +13,7 @@ export default {
         showEdit: false,
         userinfo: {},
         paySource: [],
+        reportSource: [],
     },
     subscriptions: {
         setup({ dispatch, history }) {  // eslint-disable-line
@@ -38,7 +41,19 @@ export default {
             if(cb){
                 yield put({type: 'paySource', data: cb.data})
             }
-        }
+        },
+        *userReport({payload: {data}}, {call, put}){
+            const cb = yield call(userreport, data);
+            if(cb){
+                yield put({type: 'reportSource', data: cb.data})
+            }
+        },
+        *addReport({payload: {data}}, {call, put}){
+            const cb = yield call(addreport, data);
+            if(cb){
+                yield put({type: 'userReport',payload:{data: {room: cb.data.room}}})
+            }
+        },
     },
     reducers: {
         save(state, action) {
@@ -52,6 +67,9 @@ export default {
         },
         paySource(state, {data}){
             return {...state, paySource: data}
+        },
+        reportSource(state, {data}){
+            return {...state, reportSource: data}
         }
     },
 }

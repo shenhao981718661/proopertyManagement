@@ -27,3 +27,21 @@ export function querypay(payload){
         body: JSON.stringify(payload),
     })
 }
+export function userreport(payload){
+    return request('http://localhost:4000/report/queryreport',{
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify(payload),
+    })
+}
+export function addreport(payload){
+    return request('http://localhost:4000/report/add',{
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify(payload),
+    })
+}
