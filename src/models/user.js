@@ -5,6 +5,7 @@ import {
     querypay,
     userreport,
     addreport,
+    usercar,
 } from '../services/userQuest'
 
 export default {
@@ -14,6 +15,7 @@ export default {
         userinfo: {},
         paySource: [],
         reportSource: [],
+        carSource: [],
     },
     subscriptions: {
         setup({ dispatch, history }) {  // eslint-disable-line
@@ -54,6 +56,12 @@ export default {
                 yield put({type: 'userReport',payload:{data: {room: cb.data.room}}})
             }
         },
+        *userCar({payload: {data}}, {call, put}){
+            const cb = yield call(usercar, data)
+            if(cb){
+                yield put({type: 'carSource', data: cb.data})
+            }
+        }
     },
     reducers: {
         save(state, action) {
@@ -70,6 +78,9 @@ export default {
         },
         reportSource(state, {data}){
             return {...state, reportSource: data}
-        }
+        },
+        carSource(state, {data}){
+            return {...state, carSource: data}
+        },
     },
 }

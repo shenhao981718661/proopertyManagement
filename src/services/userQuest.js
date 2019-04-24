@@ -45,3 +45,12 @@ export function addreport(payload){
         body: JSON.stringify(payload),
     })
 }
+export function usercar(payload){
+    return request('http://localhost:4000/car/usercar',{
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify(payload),
+    })
+}
