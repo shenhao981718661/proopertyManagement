@@ -6,6 +6,7 @@ import {
     userreport,
     addreport,
     usercar,
+    usermessage,
 } from '../services/userQuest'
 
 export default {
@@ -16,6 +17,7 @@ export default {
         paySource: [],
         reportSource: [],
         carSource: [],
+        messageSource: [],
     },
     subscriptions: {
         setup({ dispatch, history }) {  // eslint-disable-line
@@ -61,6 +63,12 @@ export default {
             if(cb){
                 yield put({type: 'carSource', data: cb.data})
             }
+        },
+        *userMessage({payload: {data}}, {call, put}){
+            const cb = yield call(usermessage, data)
+            if(cb){
+                yield put({type: 'messageSource', data: cb.data})
+            }
         }
     },
     reducers: {
@@ -82,5 +90,8 @@ export default {
         carSource(state, {data}){
             return {...state, carSource: data}
         },
+        messageSource(state, {data}){
+            return {...state, messageSource: data}
+        }
     },
 }

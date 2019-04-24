@@ -19,6 +19,7 @@ import User from './components/user/user.js'
 import UserPay from './components/user/pay.js'
 import UserReport from './components/user/report.js'
 import UserCar from './components/user/car.js'
+import UserMessage from './components/user/message'
 
 function RouterConfig({ history }) {
   return (
@@ -45,7 +46,7 @@ function RouterConfig({ history }) {
                   <Route path='/index/user/pay' component={UserPay}/>
                   <Route path='/index/user/repair' component={UserReport}/>
                   <Route path='/index/user/car' component={UserCar}/>
-                  <Route path='/index/user/message' component={Housing}/>
+                  <Route path='/index/user/message' component={UserMessage}/>
                 </Switch>
               }></Route>
             </Switch>

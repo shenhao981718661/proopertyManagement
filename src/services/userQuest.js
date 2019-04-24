@@ -54,3 +54,12 @@ export function usercar(payload){
         body: JSON.stringify(payload),
     })
 }
+export function usermessage(payload){
+    return request('http://localhost:4000/message/usermessage',{
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify(payload),
+    })
+}
