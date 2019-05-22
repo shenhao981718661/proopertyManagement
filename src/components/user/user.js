@@ -57,10 +57,12 @@ class User extends React.Component{
         const {userName, showEdit, userinfo} = this.props
         console.log(userinfo)
         const { getFieldDecorator } = this.props.form;
+        const { name } = userinfo
+        console.log(name)
         return(
             <div>
                 <div>
-                    欢迎您<span style={{color: 'red'}}>{userName}</span>使用本系统
+                    欢迎您<span style={{color: 'red'}}>{name}</span>使用本系统
                     <Button onClick={this.showModal}>修改密码</Button>
                 </div>
                 <Modal

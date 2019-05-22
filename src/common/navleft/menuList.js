@@ -59,7 +59,7 @@ const adminMenuList = [
     },
     {
       title: '退出系统',
-      key: '/index/quit'
+      key: '/'
     },
     
   ]
@@ -120,7 +120,7 @@ const adminMenuList = [
     },
     {
       title: '退出系统',
-      key: '/index/quit'
+      key: '/'
     },
     
   ]
@@ -151,7 +151,7 @@ const adminMenuList = [
     },
     {
       title: '退出系统',
-      key: '/index/user/quit'
+      key: '/'
     },
   ]
   
