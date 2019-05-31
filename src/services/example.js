@@ -350,3 +350,9 @@ export function messagE(payload) {
     method: 'get'
   })
 }
+
+export function searchRoom(payload) {
+  return request('http://localhost:4000/room',{
+    method: 'get'
+  })
+}

@@ -1,14 +1,25 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Select, DatePicker, Radio } from 'antd'
 import { Rules } from 'tslint';
 
+const Option = Select.Option;
+const Group = Radio.Group;
 class AddHousing extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-
+            roomList: [],
         }
+    }
+    componentDidMount() {
+        this.props.dispatch({
+            type: 'example/room'
+        }).then((res) => {
+            this.setState({
+                roomList: res.data
+            })
+        })
     }
     handleSubmit = (e) => {
         e.preventDefault();
@@ -25,7 +36,10 @@ class AddHousing extends React.Component{
         })
     }
     render(){
-        const { getFieldDecorator } = this.props.form
+        const { getFieldDecorator } = this.props.form;
+        const option = this.state.roomList.map((item, index) => {
+            return <Option key={item._id} value={item.room}>{item.room}</Option>
+        })
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
@@ -47,14 +61,19 @@ class AddHousing extends React.Component{
                         label="性别"
                     >
                         {getFieldDecorator('sex',{rules:[{required: true}]})(
-                            <Input />
+                            <Group>
+                            <Radio value='男'>男</Radio>
+                            <Radio value='女'>女</Radio>
+                        </Group>
                         )}
                     </Form.Item>
                     <Form.Item
                         label="房号"
                     >
                         {getFieldDecorator('room',{rules:[{required: true}]})(
-                            <Input />
+                             <Select>
+                             {option}
+                         </Select>
                         )}
                     </Form.Item>
                     <Form.Item
@@ -68,7 +87,9 @@ class AddHousing extends React.Component{
                         label="入住时间"
                     >
                         {getFieldDecorator('date',{rules:[{required: true}]})(
-                            <Input />
+                            <DatePicker
+                            allowClear
+                        />
                         )}
                     </Form.Item>
                     <Form.Item

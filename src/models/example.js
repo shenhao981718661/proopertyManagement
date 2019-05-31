@@ -39,6 +39,7 @@ import {query,
   removereport,
   editpay,
   removepay,
+  searchRoom,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -82,9 +83,9 @@ export default {
           yield put({type: 'changeUserInformation',data: cb.data._doc})
           console.log(cb.data._doc)
           if(cb.data.type === '1'){
-            window.location.hash = '/index/user'
+            window.location.hash = '/index/user/user'
           }else{
-            window.location.hash = 'index'
+            window.location.hash = '/index/personnel'
           }
         }else{
           message.error('用户名或密码错误')
@@ -385,6 +386,10 @@ export default {
         yield put({type: 'messageSource', data: cb.data})
       }
     },
+    *room(payload, {call, put}) {
+      const res = yield call(searchRoom);
+      return res;
+    }
   },
 
   reducers: {

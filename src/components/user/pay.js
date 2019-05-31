@@ -46,7 +46,7 @@ class UserPay extends React.Component{
                         <a href="javascript:;" onClick={() => {
                         }}>编辑</a>
                         <Divider type="vertical" />
-                        <Popconfirm title="确定删除？" onConfirm={() => {
+                        <Popconfirm cancelText='返回' okText='确定' title="确定删除？" onConfirm={() => {
 
                         }}>
                             <a href="#">删除</a>

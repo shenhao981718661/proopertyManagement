@@ -75,7 +75,7 @@ class UserReport extends React.Component{
                     })
                     }}>编辑</a>
                     <Divider type="vertical" />
-                    <Popconfirm title="确定删除？" onConfirm={() => {
+                    <Popconfirm cancelText='返回' okText='确定' title="确定删除？" onConfirm={() => {
                         this.props.dispatch({
                             type: 'example/removeReport',
                             payload: {

@@ -1,9 +1,5 @@
 const adminMenuList = [
     {
-      title: '首页',
-      key: '/index'
-    },
-    {
       title: '人事管理',
       key: '/index/personnel'
     },
@@ -65,10 +61,6 @@ const adminMenuList = [
   ]
   const managerMenuList = [
     {
-      title: '首页',
-      key: '/index'
-    },
-    {
       title: '设备管理',
       key: '/index/equipment'
     },
@@ -125,10 +117,6 @@ const adminMenuList = [
     
   ]
   const userMenuList = [
-    {
-      title: '主页',
-      key: '/index/user'
-    },
     {
       title: '个人信息',
       key: '/index/user/user'

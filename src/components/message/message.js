@@ -44,7 +44,7 @@ class Message extends React.Component{
                 <span>
                     <a href="#">编辑</a>
                     <Divider type="vertical" />
-                    <a href="javascript:;">Delete</a>
+                    <a href="javascript:;">删除</a>
                 </span>
             )
         }

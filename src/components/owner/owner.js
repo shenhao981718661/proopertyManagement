@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Popconfirm, Divider, Button, Modal } from 'antd'
+import { Table, Popconfirm, Divider, Button, Modal,  } from 'antd'
 import AddOwner from './addOwner.js'
 import EditOwner from './editOwner.js'
+import moment from 'moment'
 
 class Owner extends React.Component{
     constructor(props){
@@ -41,7 +42,12 @@ class Owner extends React.Component{
     },
     {
         title: '入住时间',
-        dataIndex: 'date'
+        dataIndex: 'date',
+        render: (text, record) => {
+            return (
+                <span>{moment(text).format("YYYY-MM-DD")}</span>
+            )
+        }
     },
     {
         title: '备注',
@@ -64,7 +70,7 @@ class Owner extends React.Component{
                 })
             }}>编辑</a>
             <Divider type="vertical" />
-            <Popconfirm title="确定删除？" onConfirm={() => {
+            <Popconfirm cancelText='返回' okText='确定' title="确定删除？" onConfirm={() => {
                 this.props.dispatch({
                     type: 'example/removeOwner',
                     payload: {
@@ -106,6 +112,7 @@ class Owner extends React.Component{
                     visible={this.state.showModal}
                     footer={null}
                     keyboard
+                    destroyOnClose
                     onCancel={this.cancel}
                 >
                     <AddOwner
@@ -116,6 +123,7 @@ class Owner extends React.Component{
                     visible={showEdit}
                     footer={null}
                     keyboard
+                    destroyOnClose
                     onCancel={this.cancel}
                 >
                     <EditOwner

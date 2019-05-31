@@ -1,19 +1,18 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Input, Button, Select, DatePicker, Radio  } from 'antd'
+import { Form, Input, Button, Select, DatePicker, Radio } from 'antd'
 import { Rules } from 'tslint';
+import moment from 'moment'
 
 const Option = Select.Option;
 const Group = Radio.Group;
-
-class AddOwner extends React.Component{
+class AddMessage extends React.Component{
     constructor(props){
         super(props)
         this.state = {
             roomList: [],
         }
     }
-
     componentDidMount() {
         this.props.dispatch({
             type: 'example/room'
@@ -28,18 +27,17 @@ class AddOwner extends React.Component{
         this.props.form.validateFields((err, values) => {
             if(!err){
                 this.props.dispatch({
-                    type: 'example/addOwner',
+                    type: 'example/addHousing',
                     payload: {
                         data: values
                     }
-                }).then(res => {
-                    this.props.cancel();
                 })
+                this.props.cancel()
             }
         })
     }
     render(){
-        const { getFieldDecorator } = this.props.form
+        const { getFieldDecorator } = this.props.form;
         const option = this.state.roomList.map((item, index) => {
             return <Option key={item._id} value={item.room}>{item.room}</Option>
         })
@@ -65,18 +63,18 @@ class AddOwner extends React.Component{
                     >
                         {getFieldDecorator('sex',{rules:[{required: true}]})(
                             <Group>
-                                <Radio value='男'>男</Radio>
-                                <Radio value='女'>女</Radio>
-                            </Group>
+                            <Radio value='男'>男</Radio>
+                            <Radio value='女'>女</Radio>
+                        </Group>
                         )}
                     </Form.Item>
                     <Form.Item
                         label="房号"
                     >
                         {getFieldDecorator('room',{rules:[{required: true}]})(
-                            <Select>
-                                {option}
-                            </Select>
+                             <Select>
+                             {option}
+                         </Select>
                         )}
                     </Form.Item>
                     <Form.Item
@@ -88,18 +86,13 @@ class AddOwner extends React.Component{
                     </Form.Item>
                     <Form.Item
                         label="入住时间"
+                        style={{overflow: 'hidden'}}
                     >
-                        {getFieldDecorator('date',{rules:[{required: true}]})(
+                        {getFieldDecorator('date',{rules:[{required: true}],initialValue: moment()})(
                             <DatePicker
-                                allowClear
-                            />
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        label="备注"
-                    >
-                        {getFieldDecorator('remarks')(
-                            <Input />
+                            
+                            allowClear
+                        />
                         )}
                     </Form.Item>
                     <Form.Item>
@@ -120,5 +113,15 @@ class AddOwner extends React.Component{
         )
     }
 }
-AddOwner = Form.create({})(AddOwner)
-export default connect()(AddOwner)
+export default connect((state) => {
+    const {userInformation} = state.example;
+    const {showEdit,userinfo} = state.user;
+    return{
+        userName: userInformation.userName,
+        _id: userInformation._id,
+        showEdit,
+        room: userInformation.room,
+        userinfo,
+        tel: userInformation.tel,
+    }
+})(Form.create({})(AddMessage));
