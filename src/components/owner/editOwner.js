@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Input, Button, Select, Radio } from 'antd'
+import { Form, Input, Button, Select, Radio, DatePicker } from 'antd'
 import { Rules } from 'tslint';
+import moment from 'moment'
 
 const Option = Select.Option;
 const Group = Radio.Group;
@@ -89,14 +90,14 @@ class EditOwner extends React.Component{
                     <Form.Item
                         label="入住时间"
                     >
-                        {getFieldDecorator('date',{rules:[{required: true}],initialValue: data.date})(
-                            <Input />
+                        {getFieldDecorator('date',{rules:[{required: true}],initialValue: moment(data.date)})(
+                            <DatePicker />
                         )}
                     </Form.Item>
                     <Form.Item
                         label="备注"
                     >
-                        {getFieldDecorator('remarks',{rules:[{required: true}],initialValue: data.remarks})(
+                        {getFieldDecorator('remarks',{initialValue: data.remarks})(
                             <Input />
                         )}
                     </Form.Item>

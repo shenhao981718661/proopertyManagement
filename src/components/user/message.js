@@ -2,12 +2,17 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Divider, Button, Modal } from 'antd'
 import AddMessage from './addMessage'
+import moment from 'moment'
 
 class Message extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            showModal: false
+            showModal: false,
+            Pagination: {
+                defaultCurrent:1,
+                pageSize:10,
+            } 
         }
         this.addCar = this.addCar.bind(this)
         this.cancel = this.cancel.bind(this)
@@ -18,7 +23,15 @@ class Message extends React.Component{
             payload: {
                 data: {room: this.props.room}
             }
+        }).then(res=> {
+            this.props.dispatch({
+                type: 'example/messagE',
+                payload: {
+                    data: {room: this.props.room}
+                }
+            })
         })
+        
     }
     columns = [{
         title: '姓名',
@@ -38,16 +51,35 @@ class Message extends React.Component{
     },
     {
         title: '留言时间',
-        dataIndex:'date'
+        dataIndex:'date',
+        render: (text,record) => {
+            return(
+                <span>{moment(text).format("YYYY-MM-DD")}</span>
+            )
+        }
     },
     {
         title: '操作',
         render: (text, record) => {
             return(
                 <span>
-                    <a href="#">编辑</a>
-                    <Divider type="vertical" />
-                    <a href="javascript:;">删除</a>
+                    <Popconfirm cancelText='返回' okText='确定' title="确定删除？" onConfirm={() => {
+                        this.props.dispatch({
+                            type: 'example/removeMessage',
+                            payload: {
+                                data: {_id: text._id}
+                            }
+                        }).then(() => {
+                            this.props.dispatch({
+                                type: 'user/userMessage',
+                                payload: {
+                                    data: {room: this.props.room}
+                                }
+                            })
+                        })
+                    }}>
+                        <a href="javascript:;">删除</a>
+                    </Popconfirm>
                 </span>
             )
         }
@@ -65,6 +97,7 @@ class Message extends React.Component{
     }
     render(){
         const {messageSource} = this.props
+        const legnth = messageSource.legnth
         return(
             <div>
                 <Button onClick={this.addCar}>
@@ -80,7 +113,10 @@ class Message extends React.Component{
                         cancel={this.cancel}
                     />
                 </Modal>
-                <Table columns={this.columns} dataSource={messageSource}/>
+                <Table columns={this.columns} pagination={{
+                    pageSize:12,
+                    total: legnth
+                }} dataSource={messageSource}/>
             </div>
         )
     }

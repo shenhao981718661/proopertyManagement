@@ -1,16 +1,17 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Table, Popconfirm, Divider, Button, Modal } from 'antd'
-// import AddCar from './addCar.js'
-
+import EditMessage from './editMessage.js'
+import moment from 'moment'
 class Message extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            showModal: false
+            showModal: false,
+            editSource: {}
         }
         // this.addCar = this.addCar.bind(this)
-        // this.cancel = this.cancel.bind(this)
+        this.cancel = this.cancel.bind(this)
     }
     componentDidMount(){
         this.props.dispatch({
@@ -35,16 +36,30 @@ class Message extends React.Component{
     },
     {
         title: '留言时间',
-        dataIndex:'date'
+        dataIndex:'date',
+        render:(text, record) => {
+            return (
+                <span>{moment(text).format("YYYY-MM-DD")}</span>
+            )
+        }
     },
     {
         title: '操作',
         render: (text, record) => {
             return(
                 <span>
-                    <a href="#">编辑</a>
-                    <Divider type="vertical" />
-                    <a href="javascript:;">删除</a>
+                    <a href="javascript:;" onClick={() => {
+                    this.setState({
+                        editSource: text,
+                        showModal: true
+                    })
+                    this.props.dispatch({
+                        type: 'example/changeEdit',
+                        payload: {
+                            data: true
+                        }
+                    })
+                    }}>编辑</a>
                 </span>
             )
         }
@@ -55,11 +70,12 @@ class Message extends React.Component{
     //         showModal: true
     //     })
     // }
-    // cancel(){
-    //     this.setState({
-    //         showModal: false
-    //     })
-    // }
+    cancel(){
+        console.log("rvtf")
+        this.setState({
+            showModal: false
+        })
+    }
     render(){
         const {messageSource} = this.props
         return(
@@ -67,16 +83,17 @@ class Message extends React.Component{
                 {/* <Button onClick={this.addCar}>
                     添加维修
                 </Button> */}
-                {/* <Modal
+                <Modal
                     visible={this.state.showModal}
                     footer={null}
                     keyboard
                     onCancel={this.cancel}
                 >
-                    <AddCar
+                    <EditMessage
                         cancel={this.cancel}
+                        editSource={this.state.editSource}
                     />
-                </Modal> */}
+                </Modal>
                 <Table columns={this.columns} dataSource={messageSource}/>
             </div>
         )

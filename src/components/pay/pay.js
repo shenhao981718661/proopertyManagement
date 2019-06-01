@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Popconfirm, Divider, Button, Modal } from 'antd'
+import { Table, Popconfirm, Divider, Button, Modal, } from 'antd'
 import AddPay from './addPay.js'
 import EditPay from './editPay.js'
+import moment from 'moment'
 
 class Pay extends React.Component{
     constructor(props){
@@ -27,17 +28,32 @@ class Pay extends React.Component{
         title: '物业费',
         dataIndex: 'property'
     },
-    {
-        title: '车位费',
-        dataIndex: 'car'
-    },
+    // {
+    //     title: '车位费',
+    //     dataIndex: 'car'
+    // },
     {
         title: '月份',
-        dataIndex:'month'
+        dataIndex:'month',
+        render: (text) => {
+                return(
+                    <span>{moment(text).month()+1}</span>
+                )
+        }
     },
     {
         title: '缴费时间',
-        dataIndex:'date'
+        dataIndex:'date',
+        render: (text) => {
+            if(text){
+                return(
+                    <span>{moment(text).format("YYYY-MM-DD")}</span>
+                )
+            } else {
+                return ''
+            }
+            
+        }
     },
     {
         title: '操作',
@@ -92,7 +108,7 @@ class Pay extends React.Component{
         return(
             <div>
                 <Button onClick={this.addPay}>
-                    添加维修
+                    添加缴费
                 </Button>
                 <Modal
                     visible={this.state.showModal}

@@ -351,6 +351,33 @@ export function messagE(payload) {
   })
 }
 
+export function addmessage(payload) {
+  return request("http://localhost:4000/message/add",{
+    method: 'post',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+export function editmessage(payload) {
+  return request("http://localhost:4000/message/edit",{
+    method: 'post',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+export function removemessage(payload) {
+  return request("http://localhost:4000/message/remove",{
+    method: 'post',
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
 export function searchRoom(payload) {
   return request('http://localhost:4000/room',{
     method: 'get'

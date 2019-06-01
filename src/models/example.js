@@ -40,6 +40,9 @@ import {query,
   editpay,
   removepay,
   searchRoom,
+  addmessage,
+  editmessage,
+  removemessage,
 } from '../services/example.js'
 import {message} from 'antd'
 import security from '../components/security/security.js';
@@ -183,6 +186,7 @@ export default {
       if(cb){
         yield put({type: 'ownerSource', data: cb.data})
       }
+      return cb
     },
     *addOwner({payload: {data}}, {call, put}){
       const cb = yield call(addowner, data)
@@ -385,6 +389,25 @@ export default {
       if(cb){
         yield put({type: 'messageSource', data: cb.data})
       }
+    },
+    *addMessage({payload}, {call,put}){
+      const cb = yield call(addmessage,payload.data)
+      if(cb){
+        message.success('添加成功')
+      }
+    },
+    *editMessage({payload}, {call,put}) {
+      const cb = yield call(editmessage, payload.data)
+      if(cb) {
+        message.success('修改成功')
+      }
+    },
+    *removeMessage({payload}, {call,put}) {
+      const cb = yield call(removemessage,payload.data)
+      if(cb){
+        message.success('删除成功')
+      }
+      return cb
     },
     *room(payload, {call, put}) {
       const res = yield call(searchRoom);

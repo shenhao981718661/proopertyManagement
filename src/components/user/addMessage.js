@@ -6,6 +6,7 @@ import moment from 'moment'
 
 const Option = Select.Option;
 const Group = Radio.Group;
+const { TextArea } = Input;
 class AddMessage extends React.Component{
     constructor(props){
         super(props)
@@ -25,12 +26,21 @@ class AddMessage extends React.Component{
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
+            console.log(values)
             if(!err){
                 this.props.dispatch({
-                    type: 'example/addHousing',
+                    type: 'example/addMessage',
                     payload: {
                         data: values
                     }
+                }).then(res=> {
+                    console.log(res)
+                        this.props.dispatch({
+                            type: 'user/userMessage',
+                            payload: {
+                                data: {room: this.props.room}
+                            }
+                        })
                 })
                 this.props.cancel()
             }
@@ -41,65 +51,43 @@ class AddMessage extends React.Component{
         const option = this.state.roomList.map((item, index) => {
             return <Option key={item._id} value={item.room}>{item.room}</Option>
         })
+        console.log(this.props)
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Item
-                        label="姓名"
                     >
-                        {getFieldDecorator('name',{rules:[{required: true}]})(
-                            <Input />
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        label="年龄"
-                    >
-                        {getFieldDecorator('age',{rules:[{required: true}]})(
-                            <Input />
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        label="性别"
-                    >
-                        {getFieldDecorator('sex',{rules:[{required: true}]})(
-                            <Group>
-                            <Radio value='男'>男</Radio>
-                            <Radio value='女'>女</Radio>
-                        </Group>
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        label="房号"
-                    >
-                        {getFieldDecorator('room',{rules:[{required: true}]})(
-                             <Select>
-                             {option}
-                         </Select>
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        label="电话"
-                    >
-                        {getFieldDecorator('tel',{rules:[{required: true}]})(
-                            <Input />
-                        )}
-                    </Form.Item>
-                    <Form.Item
-                        label="入住时间"
-                        style={{overflow: 'hidden'}}
-                    >
-                        {getFieldDecorator('date',{rules:[{required: true}],initialValue: moment()})(
-                            <DatePicker
-                            
-                            allowClear
-                        />
-                        )}
-                    </Form.Item>
-                    <Form.Item>
-                        {getFieldDecorator('_id')(
+                        {getFieldDecorator('name',{initialValue: this.props.userName})(
                             <Input hidden={true} />
                         )}
                     </Form.Item>
+                    <Form.Item
+                    >
+                        {getFieldDecorator('room',{initialValue: this.props.room})(
+                            <Input hidden={true}/>
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                        label="内容"
+                    >
+                        {getFieldDecorator('content')(
+                            <TextArea type='textarea' placeholder='请输入您的留言'/>
+                        )}
+                    </Form.Item>
+                    <Form.Item
+                    >
+                        {getFieldDecorator('date',{initialValue: moment()})(
+                            <Input
+                                hidden={true}
+                        />
+                        )}
+                    </Form.Item>
+                    {/* <Input name="date" value={moment()} hidden={true}> */}
+                    {/* <Form.Item>
+                        {getFieldDecorator('_id')(
+                            <Input hidden={true} />
+                        )}
+                    </Form.Item> */}
                     <Form.Item>
                         <Button
                             type="primary"

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, DatePicker } from 'antd'
 import { Rules } from 'tslint';
 
 class EditPay extends React.Component{
@@ -33,35 +33,35 @@ class EditPay extends React.Component{
                         label="房号"
                     >
                         {getFieldDecorator('room',{rules:[{required: true}],initialValue: data.room})(
-                            <Input />
+                            <Input disabled/>
                         )}
                     </Form.Item>
                     <Form.Item
                         label="物业费"
                     >
                         {getFieldDecorator('property',{rules:[{required: true}],initialValue: data.property})(
-                            <Input />
+                            <Input disabled/>
                         )}
                     </Form.Item>
-                    <Form.Item
+                    {/* <Form.Item
                         label="车位费"
                     >
                         {getFieldDecorator('car',{rules:[{required: true}],initialValue: data.car})(
                             <Input />
                         )}
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item
                         label="月份"
                     >
                         {getFieldDecorator('month',{rules:[{required: true}],initialValue: data.month})(
-                            <Input />
+                            <Input disabled/>
                         )}
                     </Form.Item>
                     <Form.Item
                         label="缴费日期"
                     >
                         {getFieldDecorator('date',{rules:[{required: true}],initialValue: data.date})(
-                            <Input />
+                            <DatePicker />
                         )}
                     </Form.Item>
                     <Form.Item>

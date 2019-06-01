@@ -1,14 +1,25 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Select, DatePicker } from 'antd'
 import { Rules } from 'tslint';
-
+const { MonthPicker } = DatePicker;
+const Option = Select.Option
 class AddPay extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-
+            roomList: []
         }
+    }
+    componentDidMount() {
+        this.props.dispatch({
+            type: 'example/owner',
+        }).then(res => {
+            console.log(res)
+            this.setState({
+                roomList: res.data
+            })
+        })
     }
     handleSubmit = (e) => {
         e.preventDefault();
@@ -26,6 +37,9 @@ class AddPay extends React.Component{
     }
     render(){
         const { getFieldDecorator } = this.props.form
+        const option = this.state.roomList.map((item,index) => {
+            return <Option key={index} value={item.room}>{item.room}</Option>
+        })
         return(
             <div>
                 <Form onSubmit={this.handleSubmit}>
@@ -33,7 +47,9 @@ class AddPay extends React.Component{
                         label="房号"
                     >
                         {getFieldDecorator('room',{rules:[{required: true}]})(
-                            <Input />
+                            <Select>
+                                {option}
+                            </Select>
                         )}
                     </Form.Item>
                     <Form.Item
@@ -43,27 +59,29 @@ class AddPay extends React.Component{
                             <Input />
                         )}
                     </Form.Item>
-                    <Form.Item
+                    {/* <Form.Item
                         label="车位费"
                     >
                         {getFieldDecorator('car',{rules:[{required: true}]})(
                             <Input />
                         )}
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item
                         label="月份"
                     >
                         {getFieldDecorator('month',{rules:[{required: true}]})(
-                            <Input />
+                            <MonthPicker />
                         )}
                     </Form.Item>
-                    <Form.Item
+                    {/* <Form.Item
                         label="缴费日期"
                     >
-                        {getFieldDecorator('date',{rules:[{required: true}]})(
-                            <Input />
+                        {getFieldDecorator('date')(
+                            <DatePicker
+                                disabled
+                            />
                         )}
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item>
                         {getFieldDecorator('_id')(
                             <Input hidden={true} />
